@@ -1,0 +1,11 @@
+{% if latest_prompts %}
+    <ul>
+    {% for prompt in latest_prompts %}
+        <li>
+            <a href="{% url 'prompt_designer:prompt_detail' prompt.id %}">{{ prompt.prompt_text }}</a>
+        </li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No prompts yet.</p>
+{% endif %}

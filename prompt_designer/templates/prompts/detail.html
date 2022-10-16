@@ -1,0 +1,6 @@
+{% load tz %}
+{% if p %}
+    <strong>Prompt ID:</strong> {{ p.id }}<br>
+    <strong>Prompt Text:</strong> {{ p.prompt_text }}<br>
+    <strong>Created:</strong> {% timezone 'America/New_York' %}{{ p.create_date|localtime|date:'Y-m-d H:i' }}{% endtimezone %}<br>
+{% endif %}
