@@ -21,12 +21,12 @@ See [this section](#stable-diffusion-v1) below and the [model card](https://hugg
 
   
 ## Requirements
-A suitable [conda](https://conda.io/) environment named `ldm` can be created
+A suitable [conda](https://conda.io/) environment named `prax` can be created
 and activated with:
 
 ```
 conda env create -f environment.yaml && conda activate prax && conda install mysqlclient
-conda activate ldm
+conda activate prax
 ```
 
 You can also update an existing [latent diffusion](https://github.com/CompVis/latent-diffusion) environment by running
