@@ -20,7 +20,7 @@ from rest_framework import routers
 from prompt_designer import views
 
 router = routers.DefaultRouter()
-router.register(r'prompts_api', views.PromptView, 'prompts_api')
+router.register(r'prompts', views.PromptView, 'prompts')
 
 urlpatterns = [
     path('', views.index, name='index'),
