@@ -1,17 +1,17 @@
 import './App.css';
-import { PromptContext, usePromptContext } from './contexts/PromptContext'
+import { PraxContext, usePraxContext } from './contexts/PraxContext'
 import PromptHistory from './components/PromptHistory';
 
 function App() {
-  const promptContextValue = usePromptContext();
+  const praxContextValue = usePraxContext();
 
   return (
-    <PromptContext.Provider value={promptContextValue}>
+    <PraxContext.Provider value={praxContextValue}>
       <div>
         <h1>Praxiteles</h1>
         <PromptHistory />
       </div>
-    </PromptContext.Provider>
+    </PraxContext.Provider>
   );
 }
 

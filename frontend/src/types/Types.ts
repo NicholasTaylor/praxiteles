@@ -7,8 +7,12 @@ export interface Prompt {
     create_date: Date
 }
 
-export interface Prompts {
-    prompts: Prompt[]
+export interface Context {
+    appState: {
+        promptHistory?: Prompt[],
+        promptText: string,
+        setPromptText: React.Dispatch<React.SetStateAction<string>>
+    }
 }
 
 export interface Props {
