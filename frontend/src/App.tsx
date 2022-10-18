@@ -2,11 +2,13 @@
 /** @jsx jsx */
 
 import './App.css';
-import { css, jsx } from '@emotion/react'
-import { PraxContext, usePraxContext } from './contexts/PraxContext'
+import { css, jsx } from '@emotion/react';
+import { PraxContext, usePraxContext } from './contexts/PraxContext';
+import Logo from './components/Logo';
 import PromptHistory from './components/PromptHistory';
 import PromptForm from './components/PromptForm';
 import WebFonts from './components/WebFonts';
+import { fontFamily, pragmatica, space } from './constants/style';
 
 function App() {
   const praxContextValue = usePraxContext();
@@ -15,17 +17,42 @@ function App() {
     <PraxContext.Provider value={praxContextValue}>
       <WebFonts />
       <div>
-        <h1
+        <div
           css={css`
-            font-family: itc-avant-garde-gothic-pro, sans-serif; font-weight: 700; 
-            font-style: normal;
-            text-transform: uppercase;
+            width: 100vw;
+            min-height:100vh;
+            position: relative;
           `}
-      >
-          Praxiteles
-        </h1>
-        <PromptForm />
-        <PromptHistory />
+        >
+          <div
+            css={css`
+              input, textarea, select {
+                font-family: inherit;
+              }
+              width: 90%;
+              text-align: center;
+              font-family: ${fontFamily};
+              position:absolute;
+              left: 50%;
+              top: 50%;
+              transform: translate(-50%,-50%);
+
+            `}
+          >
+            <Logo />
+            <PromptForm />
+            <div
+              css={css`
+                margin: ${space[5]} 0;
+                display: flex;
+                flex-flow: row nowrap;
+                justify-content: center;
+              `}
+            >
+              <PromptHistory />
+            </div>
+          </div>
+        </div>
       </div>
     </PraxContext.Provider>
   );
