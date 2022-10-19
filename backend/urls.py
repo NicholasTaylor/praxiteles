@@ -21,6 +21,8 @@ from prompt_designer import views
 
 router = routers.DefaultRouter()
 router.register(r'prompts', views.PromptView, 'prompts')
+router.register(r'diffusionmodels', views.DiffusionModelView, 'diffusionmodels')
+router.register(r'initimg', views.InitImgView, 'initimg')
 
 urlpatterns = [
     path('', views.index, name='index'),

@@ -1,8 +1,8 @@
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, render
 from rest_framework import viewsets
-from .serializers import PromptSerializer
-from .models import Prompt
+from .serializers import PromptSerializer, DiffusionModelSerializer, InitImgSerializer
+from .models import Init_Img, Prompt, Diffusion_Model
 
 def index(request):
     return HttpResponse('Hello world.')
@@ -22,3 +22,11 @@ def image(request, init_img_id):
 class PromptView(viewsets.ModelViewSet):
     serializer_class = PromptSerializer
     queryset = Prompt.objects.all()
+
+class DiffusionModelView(viewsets.ModelViewSet):
+    serializer_class = DiffusionModelSerializer
+    queryset = Diffusion_Model.objects.all()
+
+class InitImgView(viewsets.ModelViewSet):
+    serializer_class = InitImgSerializer
+    queryset = Init_Img.objects.all()

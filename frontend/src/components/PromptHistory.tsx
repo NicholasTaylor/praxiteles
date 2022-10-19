@@ -5,7 +5,7 @@ import { css, jsx } from '@emotion/react'
 import { useContext } from 'react';
 import { Prompt } from '../types/Types';
 import { PraxContext } from '../contexts/PraxContext';
-import { fontWeight, space, trueGray } from '../constants/style';
+import { avantGarde, fontFamily, fontWeight, space, trueGray } from '../constants/style';
 
 const PromptHistory = () => {
     const { appState } = useContext(PraxContext)
@@ -19,7 +19,11 @@ const PromptHistory = () => {
         >
             <h2
                 css={css`
-                    font-weight: ${fontWeight['semibold']};
+                    font-family: ${avantGarde}, ${fontFamily};
+                    font-weight: ${fontWeight['bold']};
+                    text-transform: uppercase;
+                    letter-spacing: -0.09em;
+                    font-feature-settings: "salt" 2;
                     margin: 0;
                 `}
             >
