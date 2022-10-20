@@ -10,6 +10,8 @@ import PromptForm from './components/PromptForm';
 import WebFonts from './components/WebFonts';
 import { fontFamily, pragmatica, space } from './constants/style';
 import ModelManager from './components/ModelManager';
+import AddModel from './components/AddModel';
+import Nav from './components/Nav';
 
 function App() {
   const praxContextValue = usePraxContext();
@@ -18,6 +20,8 @@ function App() {
     <PraxContext.Provider value={praxContextValue}>
       <WebFonts />
       <div>
+        <Nav />
+        <AddModel />
         <ModelManager />
         <div
           css={css`

@@ -8,9 +8,19 @@ import { avantGarde, fontFamily, space, fontSize, fontWeight, trueGray } from '.
 import { DiffusionModel } from '../types/Types';
 
 const ModelManager = () => {
-    const { appState } = useContext(PraxContext)
+    const { appState } = useContext(PraxContext);
+    const handleClose = () => {
+        const modelManagerRoot = document.getElementById('modelManagerRoot');
+        modelManagerRoot!.style.opacity = '0';
+    }
     return (
-        <div>
+        <div
+            id='modelManagerRoot'
+            css={css`
+                transition: ease-out .1s;
+                opacity: 0;
+            `}
+        >
             <div
                 css={css` 
                     width: 100vw;
@@ -20,13 +30,13 @@ const ModelManager = () => {
                     position: absolute;
                     top: 0;
                     left: 0;
-                `}                
+                `}
+                onClick={handleClose}             
             >
             </div>
             <div
                 css={css`
                     width: 80vw;
-                    height: 80vh;
                     background-color: #FFFFFF;
                     z-index: 202;
                     position: absolute;
@@ -51,6 +61,7 @@ const ModelManager = () => {
                             css={css`
                                 font-family: ${avantGarde}, ${fontFamily};
                                 font-size: ${fontSize[4]};
+                                margin: 0;
                             `}
                         >
                             Model Manager

@@ -29,22 +29,36 @@ const PromptHistory = () => {
             >
                 Recent Prompt History
             </h2>
-            <ul
-                css={css`
-                    margin: 0;
-                    padding: 0;
-                    li {
-                        list-style-type: none;
-                        text-align: left;
-                    }
-                `}
-            >
-                {appState.promptHistory?.map((prompt: Prompt) =>
-                    <li key={prompt.id.toString()}>
-                        {prompt.prompt_text}
-                    </li>
-                )}
-            </ul>
+            {appState.promptHistory!.length > 0 &&
+                <ul
+                    css={css`
+                        margin: 0;
+                        padding: 0;
+                        li {
+                            list-style-type: none;
+                            text-align: left;
+                        }
+                    `}
+                >
+                    {appState.promptHistory?.map((prompt: Prompt) =>
+                        <li key={prompt.id.toString()}>
+                            {prompt.prompt_text}
+                        </li>
+                    )}
+                </ul>
+            }
+            {appState.promptHistory!.length === 0 &&
+                <div
+                    css={css`
+                        text-align:center;
+                        font-family: ${fontFamily};
+                        font-weight: ${fontWeight['semibold']};
+                    `}
+                >
+                    You have no recent prompts. Make some!
+                </div>
+            }
+                
         </div>
     )
 }
