@@ -1,6 +1,8 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, render
 from rest_framework import viewsets
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
 from .serializers import PromptSerializer, DiffusionModelSerializer, InitImgSerializer
 from .models import Init_Img, Prompt, Diffusion_Model
 
@@ -19,14 +21,44 @@ def image(request, init_img_id):
     response = 'Image %s:'
     return HttpResponse(response % init_img_id)
 
-class PromptView(viewsets.ModelViewSet):
-    serializer_class = PromptSerializer
-    queryset = Prompt.objects.all()
+@api_view(['GET'])
+def PromptView(request):
+    prompts = Prompt.objects.all()
+    serializer = PromptSerializer(prompts, many=True)
+    return Response(serializer.data)
 
-class DiffusionModelView(viewsets.ModelViewSet):
-    serializer_class = DiffusionModelSerializer
-    queryset = Diffusion_Model.objects.all()
+@api_view(['GET'])
+def DiffusionModelView(request):
+    diff_models = Diffusion_Model.objects.all()
+    serializer = DiffusionModelSerializer(diff_models, many=True)
+    return Response(serializer.data)
 
-class InitImgView(viewsets.ModelViewSet):
-    serializer_class = InitImgSerializer
-    queryset = Init_Img.objects.all()
+@api_view(['GET'])
+def InitImgView(request):
+    init_imgs = Init_Img.objects.all()
+    serializer = InitImgSerializer(init_imgs, many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+def getRoutes(request):
+    routes = [
+        {
+            'Endpoint': '/prompts/',
+            'method': 'GET',
+            'body': None,
+            'description': 'Returns all prompts.'
+        },
+        {
+            'Endpoint': '/diffusionmodels/',
+            'method': 'GET',
+            'body': None,
+            'description': 'Returns all prompts.'
+        },
+        {
+            'Endpoint': '/initimgs/',
+            'method': 'GET',
+            'body': None,
+            'description': 'Returns all prompts.'
+        },
+    ]
+    return Response(routes)

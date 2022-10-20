@@ -4,7 +4,6 @@
 import { css, jsx } from '@emotion/react';
 import React from 'react';
 import { avantGarde, fontFamily, fontSize, fontWeight, space } from '../constants/style';
-import { Props, LinkProps } from '../types/Types';
 
 const BlackButton: React.FC<React.ButtonHTMLAttributes<HTMLButtonElement>> = ({
     children,

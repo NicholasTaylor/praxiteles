@@ -19,7 +19,14 @@ function App() {
   return (
     <PraxContext.Provider value={praxContextValue}>
       <WebFonts />
-      <div>
+      <div
+        css={css`
+          font-family: ${fontFamily};
+          input, textarea, select {
+            font-family: inherit;
+          }
+        `}
+      >
         <Nav />
         <AddModel />
         <ModelManager />
@@ -32,17 +39,12 @@ function App() {
         >
           <div
             css={css`
-              input, textarea, select {
-                font-family: inherit;
-              }
               width: 90%;
               text-align: center;
-              font-family: ${fontFamily};
               position:absolute;
               left: 50%;
               top: 50%;
               transform: translate(-50%,-50%);
-
             `}
           >
             <Logo />

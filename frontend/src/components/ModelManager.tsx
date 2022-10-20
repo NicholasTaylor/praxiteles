@@ -6,6 +6,8 @@ import { useContext } from 'react';
 import { PraxContext } from '../contexts/PraxContext';
 import { avantGarde, fontFamily, space, fontSize, fontWeight, trueGray } from '../constants/style';
 import { DiffusionModel } from '../types/Types';
+import BlackButton from '../UI/BlackButton';
+import HandleAddModel from '../functions/handleAddModel';
 
 const ModelManager = () => {
     const { appState } = useContext(PraxContext);
@@ -36,7 +38,7 @@ const ModelManager = () => {
             </div>
             <div
                 css={css`
-                    width: 80vw;
+                    width: 60vw;
                     background-color: #FFFFFF;
                     z-index: 202;
                     position: absolute;
@@ -106,11 +108,22 @@ const ModelManager = () => {
                             <div
                                 css={css`
                                     text-align:center;
-                                    font-family: ${fontFamily};
-                                    font-weight: ${fontWeight['semibold']};
                                 `}
                             >
-                                You have no models installed yet. Set one up!
+                                <div
+                                    css={css`
+                                        font-weight: ${fontWeight['semibold']};
+                                    `}
+                                >
+                                    You have no models installed yet. Set one up!
+                                </div>
+                                <div>
+                                    <BlackButton
+                                        onClick={HandleAddModel}
+                                    >
+                                        Add Model
+                                    </BlackButton>
+                                </div>
                             </div>
                         }
                     </div>

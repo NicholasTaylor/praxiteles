@@ -4,6 +4,8 @@ from . import views
 
 app_name = 'prompt_designer'
 urlpatterns = [
-    path('', views.prompt_history, name='prompt_history'),
-    path('<int:prompt_id>/', views.prompt_detail, name='prompt_detail'),
+    path('', views.getRoutes, name='routes'),
+    path('prompts/', views.PromptView, name='prompts'),
+    path('diffusionmodels/', views.DiffusionModelView, name='diffusionmodels'),
+    path('initimgs/', views.InitImgView, name='initimgs'),
 ]

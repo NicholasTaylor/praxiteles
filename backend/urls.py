@@ -19,14 +19,13 @@ from rest_framework import routers
 
 from prompt_designer import views
 
-router = routers.DefaultRouter()
+"""router = routers.DefaultRouter()
 router.register(r'prompts', views.PromptView, 'prompts')
 router.register(r'diffusionmodels', views.DiffusionModelView, 'diffusionmodels')
-router.register(r'initimg', views.InitImgView, 'initimg')
+router.register(r'initimg', views.InitImgView, 'initimg')"""
 
 urlpatterns = [
     path('', views.index, name='index'),
     path('admin/', admin.site.urls),
-    path('api/', include(router.urls)),
-    path('prompts/', include('prompt_designer.urls'))
+    path('api/', include('prompt_designer.urls')),
 ]
