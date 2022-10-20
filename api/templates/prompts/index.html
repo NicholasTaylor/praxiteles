@@ -2,7 +2,7 @@
     <ul>
     {% for prompt in latest_prompts %}
         <li>
-            <a href="{% url 'prompt_designer:prompt_detail' prompt.id %}">{{ prompt.prompt_text }}</a>
+            <a href="{% url 'api:prompt_detail' prompt.id %}">{{ prompt.prompt_text }}</a>
         </li>
     {% endfor %}
     </ul>

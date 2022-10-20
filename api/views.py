@@ -22,24 +22,6 @@ def image(request, init_img_id):
     return HttpResponse(response % init_img_id)
 
 @api_view(['GET'])
-def PromptView(request):
-    prompts = Prompt.objects.all()
-    serializer = PromptSerializer(prompts, many=True)
-    return Response(serializer.data)
-
-@api_view(['GET'])
-def DiffusionModelView(request):
-    diff_models = Diffusion_Model.objects.all()
-    serializer = DiffusionModelSerializer(diff_models, many=True)
-    return Response(serializer.data)
-
-@api_view(['GET'])
-def InitImgView(request):
-    init_imgs = Init_Img.objects.all()
-    serializer = InitImgSerializer(init_imgs, many=True)
-    return Response(serializer.data)
-
-@api_view(['GET'])
 def getRoutes(request):
     routes = [
         {
@@ -62,3 +44,21 @@ def getRoutes(request):
         },
     ]
     return Response(routes)
+    
+@api_view(['GET'])
+def PromptView(request):
+    prompts = Prompt.objects.all()
+    serializer = PromptSerializer(prompts, many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+def DiffusionModelView(request):
+    diff_models = Diffusion_Model.objects.all()
+    serializer = DiffusionModelSerializer(diff_models, many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+def InitImgView(request):
+    init_imgs = Init_Img.objects.all()
+    serializer = InitImgSerializer(init_imgs, many=True)
+    return Response(serializer.data)

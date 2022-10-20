@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
 
-from prompt_designer import views
+from api import views
 
 """router = routers.DefaultRouter()
 router.register(r'prompts', views.PromptView, 'prompts')
@@ -27,5 +27,5 @@ router.register(r'initimg', views.InitImgView, 'initimg')"""
 urlpatterns = [
     path('', views.index, name='index'),
     path('admin/', admin.site.urls),
-    path('api/', include('prompt_designer.urls')),
+    path('api/', include('api.urls')),
 ]
