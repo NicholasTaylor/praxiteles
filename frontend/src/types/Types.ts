@@ -23,6 +23,18 @@ export interface Context {
     }
 }
 
+export interface BlackButton extends React.HTMLAttributes<HTMLButtonElement> {
+}
+
+export interface WhiteLinkProps {
+    props: React.AnchorHTMLAttributes<HTMLAnchorElement>, 
+    children: string
+}
+
+export interface LinkProps {
+    children: React.ReactNode
+}
+
 export interface Props {
     children: React.ReactElement;
 }

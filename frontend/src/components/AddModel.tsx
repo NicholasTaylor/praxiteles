@@ -6,6 +6,8 @@ import { useContext, useState } from 'react';
 import { PraxContext } from '../contexts/PraxContext';
 import { avantGarde, fontFamily, space, fontSize, fontWeight, trueGray } from '../constants/style';
 import { DiffusionModel } from '../types/Types';
+import WhiteLink from '../UI/WhiteLink';
+import BlackButton from '../UI/BlackButton';
 
 const AddModel = () => {
     const { appState } = useContext(PraxContext);
@@ -132,36 +134,33 @@ const AddModel = () => {
                         css={css`
                             width: 100%;
                             position: relative;
-                            font-size: ${fontSize[2]};
-                            height: calc(1em + (${space[3]} * 2));
-                            button, a {
-                                font-family: ${avantGarde}, ${fontFamily};
-                                text-transform: uppercase;
-                                font-weight: ${fontWeight['bold']};
-                                font-size: ${fontSize[2]};
+                            height: calc(1em + (${space[3]} * 2));  
+                            div {
+                                display:inline-block;
                                 position: absolute;
-                            }                            
+                            }                         
                         `}
                     >
-                        <a 
+                        <div 
                             css={css`
                                 margin: ${space[3]} 0;
                             `}
-                            onClick={handleClose}
                         >
-                            Cancel
-                        </a>
-                        <button
+                            <WhiteLink
+                                onClick={handleClose}
+                            >
+                                Cancel
+                            </WhiteLink>
+                        </div>
+                        <div
                             css={css`
-                                background-color: black;
-                                color: white;
-                                border-radius: ${space[2]};
-                                right:0;
-                                padding: ${space[3]} ${space[2]};
+                                right: 0;
                             `}
                         >
-                            Submit
-                        </button>
+                            <BlackButton>
+                                Submit
+                            </BlackButton>
+                        </div>
                     </div>
                 </div>                
             </div>

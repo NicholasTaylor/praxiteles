@@ -4,6 +4,8 @@
 import { css, jsx } from '@emotion/react';
 import { avantGarde, fontFamily, fontSize, fontWeight, space } from '../constants/style';
 import HandleModelManager from '../functions/handleModelManager';
+import WhiteLink from '../UI/WhiteLink';
+import ErrorBoundary from './ErrorBoundary';
 
 const Nav = () => {
     return(
@@ -24,14 +26,18 @@ const Nav = () => {
                 }                            
             `}
         >
-            <a 
+            <div 
                 css={css`
                     margin: ${space[3]} 0;
                 `}
-                onClick={HandleModelManager}
             >
-                Model Manager
-            </a>
+                <WhiteLink
+                    onClick={HandleModelManager}
+                    href="#"
+                >
+                    Model Manager
+                </WhiteLink>
+            </div>
         </div>
     )
 }
