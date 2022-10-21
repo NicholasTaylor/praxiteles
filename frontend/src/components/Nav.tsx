@@ -35,7 +35,7 @@ const Nav = () => {
                     onClick={HandleModelManager}
                     href="#"
                 >
-                    Model Manager
+                    Models
                 </WhiteLink>
             </div>
         </div>

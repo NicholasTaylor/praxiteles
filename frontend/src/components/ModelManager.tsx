@@ -4,10 +4,11 @@
 import { css, jsx } from '@emotion/react';
 import { useContext } from 'react';
 import { PraxContext } from '../contexts/PraxContext';
-import { avantGarde, fontFamily, fontSize, fontWeight } from '../constants/style';
+import { avantGarde, fontFamily, fontSize, fontWeight, space } from '../constants/style';
 import { DiffusionModel } from '../types/Types';
 import BlackButton from '../UI/BlackButton';
 import HandleAddModel from '../functions/handleAddModel';
+import WhiteLink from '../UI/WhiteLink';
 
 const ModelManager = () => {
     const { appState } = useContext(PraxContext);
@@ -38,7 +39,7 @@ const ModelManager = () => {
             </div>
             <div
                 css={css`
-                    width: 60vw;
+                    width: 40vw;
                     background-color: #FFFFFF;
                     z-index: 202;
                     position: absolute;
@@ -72,44 +73,104 @@ const ModelManager = () => {
                     <div>
                         {appState.diffusionModels.length > 0 &&
                             <div>
-                                <table
-                                    cellPadding={0}
-                                    cellSpacing={0}
-                                    border={0}
+                                <div
+                                    css={css`
+                                        margin: ${space[4]} 0;
+                                    `}
                                 >
-                                    <tbody>
-                                        <th>
-                                            <td>
-                                                Name
-                                            </td>
-                                            <td>
-                                                Location
-                                            </td>
-                                            <td>
-                                                Revision
-                                            </td>
-                                        </th>
-                                        {appState.diffusionModels?.map((diff_model: DiffusionModel) =>
-                                            <tr key={diff_model.id.toString()}>
-                                                <td>
-                                                    {diff_model.display_name}
-                                                </td>
-                                                <td>
-                                                    {diff_model.hf_repo_location}
-                                                </td>
-                                                <td>
-                                                    {diff_model.revision}
-                                                </td>
-                                            </tr>
-                                        )}
-                                    </tbody>
-                                </table>
-                                <div>
-                                    <BlackButton
-                                        onClick={HandleAddModel}
+                                    <div
+                                        css={css`
+                                            display: flex;
+                                            flex-flow: row nowrap;
+                                        `}
                                     >
-                                        Add Model
-                                    </BlackButton>
+                                        <div
+                                            css={css`
+                                                flex: 1 0 33%;
+                                            `}
+                                        >
+                                            <strong>Name</strong>
+                                        </div>
+                                        <div
+                                            css={css`
+                                                flex: 1 0 33%;
+                                            `}
+                                        >
+                                            <strong>Location</strong>
+                                        </div>
+                                        <div
+                                            css={css`
+                                                flex: 1 0 33%;
+                                            `}
+                                        >
+                                            <strong>Revision</strong>
+                                        </div>
+                                    </div>
+                                    {appState.diffusionModels?.map((diff_model: DiffusionModel) =>
+                                        <div
+                                            key={diff_model.id.toString()}
+                                            css={css`
+                                                display: flex;
+                                                flex-flow: row nowrap;
+                                            `}
+                                        >
+                                            <div
+                                                css={css`
+                                                    flex: 1 0 33%;
+                                                `}
+                                            >
+                                                {diff_model.display_name}
+                                            </div>
+                                            <div
+                                                css={css`
+                                                    flex: 1 0 33%;
+                                                `}
+                                            >
+                                                {diff_model.hf_repo_location}
+                                            </div>
+                                            <div
+                                                css={css`
+                                                    flex: 1 0 33%;
+                                                `}
+                                            >
+                                                {diff_model.revision}
+                                            </div>
+                                        </div>
+                                    )}
+                                </div>
+                                <div
+                                    css={css`
+                                        width: 100%;
+                                        position: relative;
+                                        height: calc(1em + (${space[3]} * 2));
+                                        div {
+                                            display:inline-block;
+                                            position: absolute;
+                                        }
+                                    `}
+                                >
+                                    <div
+                                        css={css`
+                                            margin: ${space[3]} 0;
+                                        `}
+                                    >
+                                        <WhiteLink
+                                            onClick={handleClose}
+                                        >
+                                            Cancel
+                                        </WhiteLink>
+                                    </div>
+                                    <div
+                                        css={css`
+                                            right: 0;
+                                        `}
+                                    >
+                                        <BlackButton
+                                            onClick={HandleAddModel}
+                                        >
+                                            Add Model
+                                        </BlackButton>
+                                    </div>
                                 </div>
                             </div>
                         }

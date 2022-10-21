@@ -4,7 +4,8 @@
 import { css, jsx } from '@emotion/react';
 import { useContext } from 'react';
 import { PraxContext } from '../contexts/PraxContext';
-import { avantGarde, fontFamily, space, fontSize, fontWeight, trueGray } from '../constants/style';
+import { space, fontSize, fontWeight, trueGray } from '../constants/style';
+import { DiffusionModel } from '../types/Types';
 
 const PromptForm = () => {
     const { appState } = useContext(PraxContext)
@@ -12,9 +13,37 @@ const PromptForm = () => {
         <div>
             <div
                 css={css`
-                    display:block;
+                    display:flex;
+                    justify-content: center;
                 `}
             >
+                <select
+                    name="model"
+                    id="model"
+                    css={css`
+                        font-size: ${fontSize[3]};
+                        padding: ${space[4]};
+                        border-radius: ${space[4]} 0 0 ${space[4]};
+                        border: ${space[1]} solid ${trueGray};
+                        font-weight: ${fontWeight['semibold']};
+                        box-sizing: border-box;
+                        display: inline-block;           
+                    `}
+                >
+                        <option
+                            value=""
+                        >
+                            Model
+                        </option>
+                    {appState.diffusionModels?.map((diff_model: DiffusionModel) =>
+                        <option
+                            key={diff_model.id.toString()}
+                            value={diff_model.hf_repo_location.toString()}
+                        >
+                            {diff_model.display_name}
+                        </option>
+                    )}
+                </select>
                 <input
                     type='text'
                     placeholder='Enter your prompt here. (77 words or fewer)'
@@ -24,9 +53,11 @@ const PromptForm = () => {
                         width: 50%;
                         font-size: ${fontSize[3]};
                         padding: ${space[4]};
-                        border-radius: ${space[4]};
+                        border-radius: 0 ${space[4]} ${space[4]} 0;
                         border: ${space[1]} solid ${trueGray};
+                        border-width: ${space[1]} ${space[1]} ${space[1]} 0;
                         font-weight: ${fontWeight['semibold']};
+                        display: inline-block;
                     `}
                 />
             </div>
@@ -44,11 +75,6 @@ const PromptForm = () => {
                 <div>
                     <button>
                         Image
-                    </button>
-                </div>
-                <div>
-                    <button>
-                        Model
                     </button>
                 </div>
             </div>

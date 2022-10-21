@@ -128,7 +128,6 @@ def DiffusionModelDetailView(request, pk):
 def DiffusionModelCreateView(request):
     if request.method == 'POST':
         diff_model = Diffusion_Model()
-        print('Request Data:\n%s' % str(request.data))
         serializer = DiffusionModelSerializer(diff_model, data=request.data)
         if serializer.is_valid():
             repo = request.data['hf_repo_location']

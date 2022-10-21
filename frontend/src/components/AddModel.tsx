@@ -58,7 +58,7 @@ const AddModel = () => {
             id='addModelRoot'
             css={css`
                 transition: ease-out .1s;
-                opacity: 1;
+                opacity: 0;
             `}
         >
             <div
