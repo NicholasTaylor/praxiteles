@@ -23,6 +23,10 @@ export interface Context {
     }
 }
 
+export interface ModelResponseProps {
+    headline?: string;
+}
+
 export interface Props {
     children: React.ReactElement;
 }

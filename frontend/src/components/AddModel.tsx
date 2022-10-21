@@ -2,28 +2,63 @@
 /** @jsx jsx */
 
 import { css, jsx } from '@emotion/react';
-import { useContext, useState } from 'react';
-import { PraxContext } from '../contexts/PraxContext';
+import React, { useEffect, useState } from 'react';
 import { avantGarde, fontFamily, space, fontSize, fontWeight, trueGray } from '../constants/style';
-import { DiffusionModel } from '../types/Types';
 import WhiteLink from '../UI/WhiteLink';
 import BlackButton from '../UI/BlackButton';
+import AddModelResponse from './AddModelResponse';
 
 const AddModel = () => {
-    const { appState } = useContext(PraxContext);
     const [name, setName] = useState('');
     const [repo, setRepo] = useState('');
     const [revision, setRevision] = useState('');
+    const [responseHead, setResponseHead] = useState('');
+    const [responseMsg, setResponseMsg] = useState('');
     const handleClose = () => {
         const addModelRoot = document.getElementById('addModelRoot');
         addModelRoot!.style.opacity = '0';
     }
+    const createModel = (event: React.SyntheticEvent) => {
+        event.preventDefault();
+        const requestOptions = {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                display_name: name,
+                hf_repo_location: repo,
+                revision: revision
+            })
+        }
+        fetch('http://localhost:8000/api/diffusionmodel/create', requestOptions)
+        .then((res) => {
+            if(res.status === 200){
+                setResponseHead('Success');
+            }
+            else {
+                setResponseHead('Error');
+            }
+            return res.json();
+        })
+        .then((data) => {
+            setResponseMsg(data.detail)
+        })
+        .catch((err) => {
+            setResponseMsg(err);
+            setResponseHead('Error')
+        });
+      }
+    useEffect(()=>{
+        if (responseMsg.length > 0){
+            const addModelMsgRoot = document.getElementById('addModelMsgRoot');
+            addModelMsgRoot!.style.opacity = '1';
+        }
+    },[responseMsg])
     return (
         <div
             id='addModelRoot'
             css={css`
                 transition: ease-out .1s;
-                opacity: 0;
+                opacity: 1;
             `}
         >
             <div
@@ -134,14 +169,14 @@ const AddModel = () => {
                         css={css`
                             width: 100%;
                             position: relative;
-                            height: calc(1em + (${space[3]} * 2));  
+                            height: calc(1em + (${space[3]} * 2));
                             div {
                                 display:inline-block;
                                 position: absolute;
-                            }                         
+                            }
                         `}
                     >
-                        <div 
+                        <div
                             css={css`
                                 margin: ${space[3]} 0;
                             `}
@@ -157,13 +192,20 @@ const AddModel = () => {
                                 right: 0;
                             `}
                         >
-                            <BlackButton>
+                            <BlackButton
+                                onClick={createModel}
+                            >
                                 Submit
                             </BlackButton>
                         </div>
                     </div>
                 </div>                
             </div>
+            <AddModelResponse
+                headline={responseHead}
+            >
+                {responseMsg}
+            </AddModelResponse>
         </div>
     )
 }

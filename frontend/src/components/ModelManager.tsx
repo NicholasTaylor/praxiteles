@@ -4,7 +4,7 @@
 import { css, jsx } from '@emotion/react';
 import { useContext } from 'react';
 import { PraxContext } from '../contexts/PraxContext';
-import { avantGarde, fontFamily, space, fontSize, fontWeight, trueGray } from '../constants/style';
+import { avantGarde, fontFamily, fontSize, fontWeight } from '../constants/style';
 import { DiffusionModel } from '../types/Types';
 import BlackButton from '../UI/BlackButton';
 import HandleAddModel from '../functions/handleAddModel';
@@ -71,38 +71,47 @@ const ModelManager = () => {
                     </div>
                     <div>
                         {appState.diffusionModels.length > 0 &&
-                            <table
-                                cellPadding={0}
-                                cellSpacing={0}
-                                border={0}
-                            >
-                                <tbody>
-                                    <th>
-                                        <td>
-                                            Name
-                                        </td>
-                                        <td>
-                                            Location
-                                        </td>
-                                        <td>
-                                            Revision
-                                        </td>
-                                    </th>
-                                    {appState.diffusionModels?.map((diff_model: DiffusionModel) =>
-                                        <tr key={diff_model.id.toString()}>
+                            <div>
+                                <table
+                                    cellPadding={0}
+                                    cellSpacing={0}
+                                    border={0}
+                                >
+                                    <tbody>
+                                        <th>
                                             <td>
-                                                {diff_model.display_name}
+                                                Name
                                             </td>
                                             <td>
-                                                {diff_model.hf_repo_location}
+                                                Location
                                             </td>
                                             <td>
-                                                {diff_model.revision}
+                                                Revision
                                             </td>
-                                        </tr>
-                                    )}
-                                </tbody>
-                            </table>
+                                        </th>
+                                        {appState.diffusionModels?.map((diff_model: DiffusionModel) =>
+                                            <tr key={diff_model.id.toString()}>
+                                                <td>
+                                                    {diff_model.display_name}
+                                                </td>
+                                                <td>
+                                                    {diff_model.hf_repo_location}
+                                                </td>
+                                                <td>
+                                                    {diff_model.revision}
+                                                </td>
+                                            </tr>
+                                        )}
+                                    </tbody>
+                                </table>
+                                <div>
+                                    <BlackButton
+                                        onClick={HandleAddModel}
+                                    >
+                                        Add Model
+                                    </BlackButton>
+                                </div>
+                            </div>
                         }
                         {appState.diffusionModels.length === 0 &&
                             <div
