@@ -20,6 +20,8 @@ export interface Context {
         setPromptText: React.Dispatch<React.SetStateAction<string>>,
         diffusionModels: DiffusionModel[],
         setDiffusionModels: React.Dispatch<React.SetStateAction<DiffusionModel[]>>,
+        diffusionModel: Number,
+        setDiffusionModel: React.Dispatch<React.SetStateAction<Number>>,
     }
 }
 
