@@ -4,11 +4,15 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from api.exceptions import DuplicateModel, InvalidModelIdentifer
-from .serializers import PromptSerializer, DiffusionModelSerializer, InitImgSerializer
-from .models import Init_Img, Prompt, Diffusion_Model
+from .serializers import PromptSerializer, DiffusionModelSerializer, InitImgSerializer, ResultImgSerializer
+from .models import Init_Img, Prompt, Diffusion_Model, Result_Img
 from diffusers import StableDiffusionPipeline
+from diffusers import StableDiffusionImg2ImgPipeline
 import torch
 import credentials
+import random
+from torch.cuda.amp import autocast
+from datetime import datetime
 
 def index(request):
     return HttpResponse('Hello world.')
@@ -87,6 +91,7 @@ def PromptCreateView(request):
     if request.method == 'POST':
         prompt = Prompt()
         serializer = PromptSerializer(prompt, data=request.data)
+        print('Request Data:\n%s' % str(request.data))
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -150,3 +155,30 @@ def InitImgView(request):
     init_imgs = Init_Img.objects.all()
     serializer = InitImgSerializer(init_imgs, many=True)
     return Response(serializer.data)
+
+
+@api_view(['GET', 'PUT', 'DELETE'])
+def ResultImgDetailView(request, pk):
+    try:
+        result_img = Result_Img.objects.get(pk=pk)
+    except Result_Img.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    if request.method == 'GET':
+        serializer = ResultImgSerializer(result_img)
+        return Response(serializer.data)
+    if request.method == 'PUT':
+        serializer = ResultImgSerializer(result_img, data=request.data)
+        data = {}
+        if serializer.is_valid():
+            serializer.save()
+            data['success'] = 'Success message'
+            return Response(data=data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    if request.method == 'DELETE':
+        operation = result_img.delete()
+        data = {}
+        if operation:
+            data['success'] = 'Success message'
+        else:
+            data['failure'] = 'Failure message'
+        return Response(data=data)

@@ -21,3 +21,12 @@ class Prompt(models.Model):
     create_date = models.DateTimeField('date created')
     def __str__(self):
         return self.prompt_text
+
+class Result_Img(models.Model):
+    title = models.CharField(max_length=256)
+    img_path = models.CharField(max_length=2048)
+    init_img = models.ForeignKey(Init_Img, blank=True, null=True, on_delete=models.PROTECT)
+    prompt = models.ForeignKey(Prompt, on_delete=models.PROTECT)
+    create_date = models.DateTimeField('date created')
+    def __str__(self):
+        return self.img        

@@ -32,7 +32,7 @@ conda activate prax
 You can also update an existing [latent diffusion](https://github.com/CompVis/latent-diffusion) environment by running
 
 ```
-conda install pytorch torchvision -c pytorch
+pip install torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu116
 pip install transformers==4.19.2 diffusers invisible-watermark
 pip install -e .
 ``` 

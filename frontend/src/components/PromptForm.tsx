@@ -2,13 +2,44 @@
 /** @jsx jsx */
 
 import { css, jsx } from '@emotion/react';
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
 import { PraxContext } from '../contexts/PraxContext';
 import { space, fontSize, fontWeight, trueGray } from '../constants/style';
 import { DiffusionModel } from '../types/Types';
+import iconCamera from '../images/icon-camera.png';
+import BlackButton from '../UI/BlackButton';
 
 const PromptForm = () => {
     const { appState } = useContext(PraxContext);
+    const submitPrompt = (event: React.SyntheticEvent) => {
+        event.preventDefault();
+        const requestOptions = {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                prompt_text: appState.promptText,
+                diff_model: appState.diffusionModel,
+                create_date: new Date().toISOString()
+            })
+        }
+        fetch('http://localhost:8000/api/prompt/create', requestOptions)
+        /*.then((res) => {
+            if(res.status === 200){
+                setResponseHead('Success');
+            }
+            else {
+                setResponseHead('Error');
+            }
+            return res.json();
+        })
+        .then((data) => {
+            setResponseMsg(data.detail)
+        })
+        .catch((err) => {
+            setResponseMsg(err);
+            setResponseHead('Error')
+        })*/;
+    }
     return (
         <div>
             <div
@@ -53,14 +84,27 @@ const PromptForm = () => {
                     value={appState.promptText}
                     onChange={(e) => appState.setPromptText(e.target.value)}
                     css={css`
-                        width: 50%;
+                        width: 45%;
                         font-size: ${fontSize[3]};
                         padding: ${space[4]};
-                        border-radius: 0 ${space[4]} ${space[4]} 0;
                         border: ${space[1]} solid ${trueGray};
-                        border-width: ${space[1]} ${space[1]} ${space[1]} 0;
+                        border-width: ${space[1]} 0;
                         font-weight: ${fontWeight['semibold']};
                         display: inline-block;
+                    `}
+                />
+                <img
+                    src={iconCamera}
+                    alt="Search by img"
+                    css={css`
+                        font-size: ${fontSize[3]};
+                        padding: ${space[4]};
+                        border: ${space[1]} solid ${trueGray};
+                        border-width: ${space[1]};
+                        border-radius: 0 ${space[4]} ${space[4]} 0;
+                        font-weight: ${fontWeight['semibold']};
+                        display: inline-block;
+                        width: 41.72px;
                     `}
                 />
             </div>
@@ -75,11 +119,11 @@ const PromptForm = () => {
                     }
                 `}
             >
-                <div>
-                    <button>
-                        Image
-                    </button>
-                </div>
+                <BlackButton
+                    onClick={submitPrompt}
+                >
+                    Generate
+                </BlackButton>
             </div>
         </div>
     )

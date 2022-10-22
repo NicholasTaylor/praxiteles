@@ -57,7 +57,6 @@ function App() {
                 justify-content: center;
               `}
             >
-              <PromptHistory />
             </div>
           </div>
         </div>

@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Diffusion_Model, Prompt, Init_Img
+from .models import Diffusion_Model, Prompt, Init_Img, Result_Img
 
 class PromptSerializer(serializers.ModelSerializer):
     class Meta:
@@ -14,4 +14,9 @@ class DiffusionModelSerializer(serializers.ModelSerializer):
 class InitImgSerializer(serializers.ModelSerializer):
     class Meta:
         model = Init_Img
+        fields = '__all__'
+
+class ResultImgSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Result_Img
         fields = '__all__'
