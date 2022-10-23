@@ -8,6 +8,7 @@ import { space, fontSize, fontWeight, trueGray } from '../constants/style';
 import { DiffusionModel } from '../types/Types';
 import iconCamera from '../images/icon-camera.png';
 import BlackButton from '../UI/BlackButton';
+import Logo from './Logo';
 
 const PromptForm = () => {
     const { appState } = useContext(PraxContext);
@@ -44,22 +45,40 @@ const PromptForm = () => {
         <div>
             <div
                 css={css`
+                    margin: ${space[4]} 0 0 0;
                     display:flex;
                     justify-content: center;
+                    align-items: center;
+                    div, select {
+                        height:${fontSize[6]};
+                    }
+                    .promptForm__imgSearch_btn {
+                        height: calc(${fontSize[6]} - (${space[1]} * 2));
+                    }
+                    input {
+                        height:calc(${fontSize[6]} - (${space[1]} * 2));
+                    }
                 `}
             >
+                <div
+                    css={css`
+                        padding: 0 ${space[5]} 0 0;
+                    `}
+                >
+                    <Logo />
+                </div>
                 {appState.diffusionModels.length > 0 &&
                     <select
                         name="model"
                         id="model"
                         css={css`
-                            font-size: ${fontSize[3]};
-                            padding: ${space[4]};
+                            font-size: ${fontSize[2]};
                             border-radius: ${space[4]} 0 0 ${space[4]};
                             border: ${space[1]} solid ${trueGray};
                             font-weight: ${fontWeight['semibold']};
                             box-sizing: border-box;
-                            display: inline-block;           
+                            display: inline-block;   
+                            padding: 0 0 0 ${space[3]};        
                         `}
                         onChange={(e) => appState.setDiffusionModel(Number(e.target.value))}
                     >
@@ -84,46 +103,47 @@ const PromptForm = () => {
                     value={appState.promptText}
                     onChange={(e) => appState.setPromptText(e.target.value)}
                     css={css`
-                        width: 45%;
-                        font-size: ${fontSize[3]};
-                        padding: ${space[4]};
+                        width: 33%;
+                        font-size: ${fontSize[2]};
                         border: ${space[1]} solid ${trueGray};
                         border-width: ${space[1]} 0;
+                        padding: 0 ${space[3]};
                         font-weight: ${fontWeight['semibold']};
                         display: inline-block;
                     `}
                 />
-                <img
-                    src={iconCamera}
-                    alt="Search by img"
+                <div
+                    className='promptForm__imgSearch_btn'
                     css={css`
-                        font-size: ${fontSize[3]};
-                        padding: ${space[4]};
+                        font-size: ${fontSize[2]};
                         border: ${space[1]} solid ${trueGray};
                         border-width: ${space[1]};
                         border-radius: 0 ${space[4]} ${space[4]} 0;
                         font-weight: ${fontWeight['semibold']};
                         display: inline-block;
-                        width: 41.72px;
                     `}
-                />
-            </div>
-            <div
-                css={css`
-                    display: flex;
-                    flex-flow: row nowrap;
-                    justify-content: center;
-                    margin: ${space[3]} 0 0 0;
-                    div {
-                        padding: 0 ${space[4]};
-                    }
-                `}
-            >
-                <BlackButton
-                    onClick={submitPrompt}
                 >
-                    Generate
-                </BlackButton>
+                    <img
+                        src={iconCamera}
+                        alt="Search by img"
+                        css={css`
+                            display: block;
+                            height: calc(100% - (${space[2]} * 2));
+                            padding: ${space[2]} ${space[3]};
+                        `}
+                    />
+                </div>
+                <div
+                    css={css`
+                    padding: 0 0 0 ${space[5]};
+                    `}
+                >
+                    <BlackButton
+                        onClick={submitPrompt}
+                    >
+                        Generate
+                    </BlackButton>
+                </div>
             </div>
         </div>
     )

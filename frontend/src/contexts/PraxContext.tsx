@@ -5,6 +5,7 @@ import { Context, DiffusionModel } from "../types/Types";
 const praxContextDefaultValue: Context = {
     appState: {
       promptHistory: [],
+      resultsImgs: [],
       promptText: '',
       setPromptText: () => {return null},
       diffusionModels: [],
@@ -20,12 +21,14 @@ export const usePraxContext = () => {
     const diffusionModelsDefault: DiffusionModel[] = []
     const diffusionModelDefault: Number = 0;
     const [promptHistory, setPromptHistory] = useState([]);
+    const [resultImgs, setResultImgs] = useState([]);
     const [promptText, setPromptText] = useState('');
     const [diffusionModels, setDiffusionModels] = useState(diffusionModelsDefault);
     const [diffusionModel, setDiffusionModel] = useState(diffusionModelDefault);
     const output: Context = {
       appState: {
         promptHistory: promptHistory,
+        resultsImgs: resultImgs,
         promptText: promptText,
         setPromptText: setPromptText,
         diffusionModels: diffusionModels,
@@ -55,10 +58,18 @@ export const usePraxContext = () => {
         })
         .catch((err) => console.log(err));
     }
+
+    const getAllResultImgs = () => {
+      axios
+        .get('http://localhost:8000/api/resultimgs/')
+        .then((res) => setResultImgs(res.data))
+        .catch((err) => console.log(err));
+    }
   
     useEffect(() => {
       getAllPrompts();
       getAllModels();
+      getAllResultImgs();
     },[])
   
     return (output);

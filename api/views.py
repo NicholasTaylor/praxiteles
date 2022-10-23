@@ -156,7 +156,6 @@ def InitImgView(request):
     serializer = InitImgSerializer(init_imgs, many=True)
     return Response(serializer.data)
 
-
 @api_view(['GET', 'PUT', 'DELETE'])
 def ResultImgDetailView(request, pk):
     try:
@@ -182,3 +181,10 @@ def ResultImgDetailView(request, pk):
         else:
             data['failure'] = 'Failure message'
         return Response(data=data)
+
+@api_view(['GET'])
+def ResultImgsView(request):
+    if request.method == 'GET':
+        result_imgs = Result_Img.objects.all().order_by('-create_date')[:200]
+        serializer = ResultImgSerializer(result_imgs, many=True)
+        return Response(serializer.data)

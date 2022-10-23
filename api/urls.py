@@ -1,6 +1,6 @@
 from django.urls import path
-from rest_framework.decorators import authentication_classes, permission_classes
-from rest_framework.permissions import AllowAny
+from django.conf import settings
+from django.conf.urls.static import static
 
 from . import views
 
@@ -14,4 +14,5 @@ urlpatterns = [
     path('diffusionmodel/create', views.DiffusionModelCreateView, name='diffusionModelCreate'),
     path('diffusionmodel/<int:pk>', views.DiffusionModelDetailView, name='diffusionModel'),
     path('initimgs/', views.InitImgView, name='initimgs'),
+    path('resultimgs/', views.ResultImgsView, name='resultimgs'),
 ]

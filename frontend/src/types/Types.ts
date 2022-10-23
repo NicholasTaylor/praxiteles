@@ -6,6 +6,18 @@ export interface Prompt {
     create_date: Date
 }
 
+export interface ResultImg {
+    id: Number,
+    title: String,
+    img_path: String,
+    init_img?: Number,
+    prompt: Number,
+    diff_model: Number,
+    guidance_scale?: Number,
+    strength?: Number,
+    create_date: Date,
+}
+
 export interface DiffusionModel {
     id: Number,
     display_name: String,
@@ -16,6 +28,7 @@ export interface DiffusionModel {
 export interface Context {
     appState: {
         promptHistory?: Prompt[],
+        resultsImgs?: ResultImg[],
         promptText: string,
         setPromptText: React.Dispatch<React.SetStateAction<string>>,
         diffusionModels: DiffusionModel[],

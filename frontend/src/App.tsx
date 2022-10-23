@@ -12,6 +12,7 @@ import { fontFamily, pragmatica, space } from './constants/style';
 import ModelManager from './components/ModelManager';
 import AddModel from './components/AddModel';
 import Nav from './components/Nav';
+import ResultImgGallery from './components/ResultImgGallery';
 
 function App() {
   const praxContextValue = usePraxContext();
@@ -22,7 +23,7 @@ function App() {
       <div
         css={css`
           font-family: ${fontFamily};
-          input, textarea, select {
+          input, textarea, select, caption {
             font-family: inherit;
           }
         `}
@@ -43,12 +44,11 @@ function App() {
               text-align: center;
               position:absolute;
               left: 50%;
-              top: 50%;
-              transform: translate(-50%,-50%);
+              transform: translateX(-50%);
             `}
           >
-            <Logo />
             <PromptForm />
+            <ResultImgGallery />
             <div
               css={css`
                 margin: ${space[5]} 0;

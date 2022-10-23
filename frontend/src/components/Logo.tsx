@@ -12,9 +12,12 @@ const Logo = () => {
             font-weight: ${fontWeight['bold']};
             font-style: normal;
             text-transform: uppercase;
-            font-size: ${fontSize[9]};
+            font-size: ${fontSize[5]};
             letter-spacing: -0.09em;
+            height: 100%;
             margin: 0;
+            position: relative;
+            top: 25%;
             `}
                 >
             Pr<span css={css`font-feature-settings: "salt";`}>a</span>xiteles

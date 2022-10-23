@@ -35,13 +35,15 @@ def generate_images(sender, instance, **kwargs):
         with autocast():
             img = pipe(prompt = prompt_text, guidance_scale=i)['sample'][0]
             title = '%s-guidance-%i' % (session, i)
-            filepath = 'results/%s.jpeg' % title
+            filepath = 'static/results/%s.jpeg' % title
             img.save(filepath)
             result_img = Result_Img()
             data = {
                     'title': title,
                     'img_path': filepath,
                     'prompt': prompt_id,
+                    'diff_model': model.id,
+                    'guidance_scale': i,
                     'create_date': datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')
             }
             serializer = ResultImgSerializer(result_img, data=data)
