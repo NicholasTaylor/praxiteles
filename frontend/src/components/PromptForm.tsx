@@ -2,7 +2,7 @@
 /** @jsx jsx */
 
 import { css, jsx } from '@emotion/react';
-import { useContext } from 'react';
+import React, { useContext } from 'react';
 import { PraxContext } from '../contexts/PraxContext';
 import { space, fontSize, fontWeight, trueGray } from '../constants/style';
 import { DiffusionModel } from '../types/Types';
@@ -12,6 +12,12 @@ import Logo from './Logo';
 
 const PromptForm = () => {
     const { appState } = useContext(PraxContext);
+    const handleImage = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const files = event.target.files;
+        if (files){
+            console.log(files[0]);
+        }
+    }
     const submitPrompt = (event: React.SyntheticEvent) => {
         event.preventDefault();
         const requestOptions = {
@@ -123,14 +129,26 @@ const PromptForm = () => {
                         display: inline-block;
                     `}
                 >
-                    <img
-                        src={iconCamera}
-                        alt="Search by img"
+                    <label 
+                        htmlFor="imgSearch"
+                    >
+                        <img
+                            src={iconCamera}
+                            alt="Search by img"
+                            css={css`
+                                display: block;
+                                height: calc(100% - (${space[2]} * 2));
+                                padding: ${space[2]} ${space[3]};
+                            `}
+                        />
+                    </label>
+                    <input
+                        id="imgSearch"
+                        type="file"
                         css={css`
-                            display: block;
-                            height: calc(100% - (${space[2]} * 2));
-                            padding: ${space[2]} ${space[3]};
+                            display:none;
                         `}
+                        onChange={handleImage}
                     />
                 </div>
                 <div

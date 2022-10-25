@@ -4,7 +4,7 @@
 import { css, jsx } from '@emotion/react';
 import { type } from '@testing-library/user-event/dist/type';
 import { useContext } from 'react';
-import { fontSize, space } from '../constants/style';
+import { avantGarde, fontFamily, fontSize, space, trueGray } from '../constants/style';
 import { PraxContext } from '../contexts/PraxContext';
 import { ResultImg } from '../types/Types';
 
@@ -24,18 +24,40 @@ const ResultImgGallery = () => {
                         <div 
                             key={resultImg.id.toString()}
                             css={css`
-                                flex: 0 calc(25% - (${space[4]} * 2));
+                                flex: 0 calc(25% - ((${space[4]} * 4) + 2px));
                                 padding: ${space[4]};
+                                margin: ${space[4]};
+                                border: 1px solid ${trueGray};
                             `}
                         >
-                            <img
-                                src={`http://localhost:8000/${resultImg.img_path}`}
-                                alt={resultImg.title.toString()}
+                            <h1
                                 css={css`
-                                    width: 100%;
-                                    height: auto;
+                                    font-family: ${avantGarde}, ${fontFamily};
+                                    font-size: ${fontSize[3]};
+                                    text-transform: uppercase;
+                                    margin: 0 0 ${space[3]} 0;
+                                    line-height: 1;
                                 `}
-                            />
+                            >
+                                {resultImg.title}
+                            </h1>
+                            <a 
+                                href={`http://localhost:8000/${resultImg.img_path}`}
+                                css={css`
+                                    text-decoration: none;
+                                    border: 0;
+                                `}
+                                target="_blank"
+                            >
+                                <img
+                                    src={`http://localhost:8000/${resultImg.img_path}`}
+                                    alt={resultImg.title.toString()}
+                                    css={css`
+                                        width: 100%;
+                                        height: auto;
+                                    `}
+                                />
+                            </a>
                             <caption
                                 css={css`
                                     display:block;
@@ -50,9 +72,6 @@ const ResultImgGallery = () => {
                                     }
                                 `}
                             >
-                                <div>
-                                    <strong>Title:</strong> {resultImg.title}
-                                </div>
                                 <div>
                                     <strong>Date Generated:</strong> {new Date(resultImg.create_date).toDateString()} {new Date(resultImg.create_date).toTimeString()}
                                 </div>

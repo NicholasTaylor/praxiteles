@@ -4,6 +4,8 @@ import { Context, DiffusionModel } from "../types/Types";
 
 const praxContextDefaultValue: Context = {
     appState: {
+      componentsOpen: 0,
+      setComponentsOpen: () => {return null},
       promptHistory: [],
       resultsImgs: [],
       promptText: '',
@@ -18,6 +20,7 @@ const praxContextDefaultValue: Context = {
 export const PraxContext = createContext<Context>(praxContextDefaultValue)
 
 export const usePraxContext = () => {
+    const [componentsOpen, setComponentsOpen] = useState(0);
     const diffusionModelsDefault: DiffusionModel[] = []
     const diffusionModelDefault: Number = 0;
     const [promptHistory, setPromptHistory] = useState([]);
@@ -27,6 +30,8 @@ export const usePraxContext = () => {
     const [diffusionModel, setDiffusionModel] = useState(diffusionModelDefault);
     const output: Context = {
       appState: {
+        componentsOpen: componentsOpen,
+        setComponentsOpen: setComponentsOpen,
         promptHistory: promptHistory,
         resultsImgs: resultImgs,
         promptText: promptText,

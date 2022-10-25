@@ -3,9 +3,8 @@
 
 import { css, jsx } from '@emotion/react';
 import { avantGarde, fontFamily, fontSize, fontWeight, space } from '../constants/style';
-import HandleModelManager from '../functions/handleModelManager';
 import WhiteLink from '../UI/WhiteLink';
-import ErrorBoundary from './ErrorBoundary';
+import HandleClick from './HandleClick';
 
 const Nav = () => {
     return(
@@ -31,12 +30,16 @@ const Nav = () => {
                     margin: ${space[3]} 0;
                 `}
             >
-                <WhiteLink
-                    onClick={HandleModelManager}
-                    href="#"
+                <HandleClick
+                    idName='modelManagerRoot'
+                    isOpening={true}
                 >
-                    Models
-                </WhiteLink>
+                    <WhiteLink
+                        href="#"
+                    >
+                        Models
+                    </WhiteLink>
+                </HandleClick>
             </div>
         </div>
     )

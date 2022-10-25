@@ -7,6 +7,7 @@ import { avantGarde, fontFamily, space, fontSize, fontWeight, trueGray } from '.
 import WhiteLink from '../UI/WhiteLink';
 import BlackButton from '../UI/BlackButton';
 import AddModelResponse from './AddModelResponse';
+import HandleClick from './HandleClick';
 
 const AddModel = () => {
     const [name, setName] = useState('');
@@ -14,10 +15,6 @@ const AddModel = () => {
     const [revision, setRevision] = useState('');
     const [responseHead, setResponseHead] = useState('');
     const [responseMsg, setResponseMsg] = useState('');
-    const handleClose = () => {
-        const addModelRoot = document.getElementById('addModelRoot');
-        addModelRoot!.style.opacity = '0';
-    }
     const createModel = (event: React.SyntheticEvent) => {
         event.preventDefault();
         const requestOptions = {
@@ -61,19 +58,22 @@ const AddModel = () => {
                 opacity: 0;
             `}
         >
-            <div
-                css={css` 
-                    width: 100vw;
-                    height: 100vh;
-                    background-color: rgba(0, 0, 0, 0.5);
-                    z-index: 301;
-                    position: absolute;
-                    top: 0;
-                    left: 0;
-                `}
-                onClick={handleClose}                
+            <HandleClick
+                idName='addModelRoot'
             >
-            </div>
+                <div
+                    css={css`
+                        width: 100%;
+                        height: 100vh;
+                        background-color: rgba(0, 0, 0, 0.5);
+                        z-index: 301;
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                    `}
+                >
+                </div>
+            </HandleClick>
             <div
                 css={css`
                     width: 33vw;
@@ -181,11 +181,13 @@ const AddModel = () => {
                                 margin: ${space[3]} 0;
                             `}
                         >
-                            <WhiteLink
-                                onClick={handleClose}
+                            <HandleClick
+                                idName='addModelRoot'
                             >
-                                Cancel
-                            </WhiteLink>
+                                <WhiteLink>
+                                    Cancel
+                                </WhiteLink>
+                            </HandleClick>
                         </div>
                         <div
                             css={css`

@@ -27,6 +27,8 @@ export interface DiffusionModel {
 
 export interface Context {
     appState: {
+        componentsOpen: number,
+        setComponentsOpen: React.Dispatch<React.SetStateAction<number>>,
         promptHistory?: Prompt[],
         resultsImgs?: ResultImg[],
         promptText: string,
@@ -44,4 +46,9 @@ export interface ModelResponseProps {
 
 export interface Props {
     children: React.ReactElement;
+}
+
+export interface OpenCloseProps extends React.HTMLProps<HTMLDivElement> {
+    idName: string,
+    isOpening?: Boolean
 }

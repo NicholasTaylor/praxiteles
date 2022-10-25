@@ -4,18 +4,22 @@
 import './App.css';
 import { css, jsx } from '@emotion/react';
 import { PraxContext, usePraxContext } from './contexts/PraxContext';
-import Logo from './components/Logo';
-import PromptHistory from './components/PromptHistory';
 import PromptForm from './components/PromptForm';
 import WebFonts from './components/WebFonts';
-import { fontFamily, pragmatica, space } from './constants/style';
+import { fontFamily, space } from './constants/style';
 import ModelManager from './components/ModelManager';
 import AddModel from './components/AddModel';
 import Nav from './components/Nav';
 import ResultImgGallery from './components/ResultImgGallery';
+import { useEffect } from 'react';
 
 function App() {
   const praxContextValue = usePraxContext();
+  useEffect(()=>{
+    const html = document.querySelector('html');
+    const body = document.querySelector('body');
+    body!.style.overflow = html!.style.overflow = praxContextValue.appState.componentsOpen === 0 ? 'initial' : 'hidden';
+  },[praxContextValue.appState.componentsOpen])
 
   return (
     <PraxContext.Provider value={praxContextValue}>
@@ -33,7 +37,7 @@ function App() {
         <ModelManager />
         <div
           css={css`
-            width: 100vw;
+            width: 100%;
             min-height:100vh;
             position: relative;
           `}

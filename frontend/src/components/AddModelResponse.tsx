@@ -6,12 +6,9 @@ import { PropsWithChildren } from 'react';
 import { avantGarde, fontFamily, space, fontSize } from '../constants/style';
 import { ModelResponseProps } from '../types/Types';
 import BlackButton from '../UI/BlackButton';
+import HandleClick from './HandleClick';
 
 const AddModelResponse = (props: PropsWithChildren<ModelResponseProps>) => {
-    const handleClose = () => {
-        const addModelMsgRoot = document.getElementById('addModelMsgRoot');
-        addModelMsgRoot!.style.opacity = '0';
-    }
     return (
         <div
             id='addModelMsgRoot'
@@ -20,19 +17,22 @@ const AddModelResponse = (props: PropsWithChildren<ModelResponseProps>) => {
                 opacity: 0;
             `}
         >
-            <div
-                css={css` 
-                    width: 100vw;
-                    height: 100vh;
-                    background-color: rgba(0, 0, 0, 0.5);
-                    z-index: 401;
-                    position: absolute;
-                    top: 0;
-                    left: 0;
-                `}
-                onClick={handleClose}                
+            <HandleClick
+                idName='addModelMsgRoot'
             >
-            </div>
+                <div
+                    css={css`
+                        width: 100%;
+                        height: 100vh;
+                        background-color: rgba(0, 0, 0, 0.5);
+                        z-index: 401;
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                    `}
+                >
+                </div>
+            </HandleClick>
             <div
                 css={css`
                     width: 20vw;
@@ -87,11 +87,13 @@ const AddModelResponse = (props: PropsWithChildren<ModelResponseProps>) => {
                             }                         
                         `}
                     >
-                        <BlackButton
-                            onClick={handleClose}
+                        <HandleClick
+                            idName='addModelMsgRoot'
                         >
-                            OK
-                        </BlackButton>
+                            <BlackButton>
+                                OK
+                            </BlackButton>
+                        </HandleClick>
                     </div>
                 </div>                
             </div>

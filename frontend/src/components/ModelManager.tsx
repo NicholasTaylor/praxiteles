@@ -7,15 +7,11 @@ import { PraxContext } from '../contexts/PraxContext';
 import { avantGarde, fontFamily, fontSize, fontWeight, space } from '../constants/style';
 import { DiffusionModel } from '../types/Types';
 import BlackButton from '../UI/BlackButton';
-import HandleAddModel from '../functions/handleAddModel';
 import WhiteLink from '../UI/WhiteLink';
+import HandleClick from './HandleClick';
 
 const ModelManager = () => {
     const { appState } = useContext(PraxContext);
-    const handleClose = () => {
-        const modelManagerRoot = document.getElementById('modelManagerRoot');
-        modelManagerRoot!.style.opacity = '0';
-    }
     return (
         <div
             id='modelManagerRoot'
@@ -24,22 +20,25 @@ const ModelManager = () => {
                 opacity: 0;
             `}
         >
-            <div
-                css={css` 
-                    width: 100vw;
-                    height: 100vh;
-                    background-color: rgba(0, 0, 0, 0.5);
-                    z-index: 201;
-                    position: absolute;
-                    top: 0;
-                    left: 0;
-                `}
-                onClick={handleClose}             
+            <HandleClick
+                idName='modelManagerRoot'
             >
-            </div>
+                <div
+                    css={css`
+                        width: 100%;
+                        height: 100vh;
+                        background-color: rgba(0, 0, 0, 0.5);
+                        z-index: 201;
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                    `}
+                >
+                </div>
+            </HandleClick>
             <div
                 css={css`
-                    width: 40vw;
+                    width: 50vw;
                     background-color: #FFFFFF;
                     z-index: 202;
                     position: absolute;
@@ -82,27 +81,19 @@ const ModelManager = () => {
                                         css={css`
                                             display: flex;
                                             flex-flow: row nowrap;
+                                            div {
+                                                padding: 0 ${space[3]};
+                                                flex: 1 0 calc(33% - (${space[3]} * 2));
+                                            }
                                         `}
                                     >
-                                        <div
-                                            css={css`
-                                                flex: 1 0 33%;
-                                            `}
-                                        >
+                                        <div>
                                             <strong>Name</strong>
                                         </div>
-                                        <div
-                                            css={css`
-                                                flex: 1 0 33%;
-                                            `}
-                                        >
+                                        <div>
                                             <strong>Location</strong>
                                         </div>
-                                        <div
-                                            css={css`
-                                                flex: 1 0 33%;
-                                            `}
-                                        >
+                                        <div>
                                             <strong>Revision</strong>
                                         </div>
                                     </div>
@@ -112,27 +103,24 @@ const ModelManager = () => {
                                             css={css`
                                                 display: flex;
                                                 flex-flow: row nowrap;
+                                                div {
+                                                    padding: 0 ${space[3]};
+                                                    flex: 1 0 calc(33% - (${space[3]} * 2));
+                                                }
                                             `}
                                         >
-                                            <div
-                                                css={css`
-                                                    flex: 1 0 33%;
-                                                `}
-                                            >
+                                            <div>
                                                 {diff_model.display_name}
                                             </div>
                                             <div
                                                 css={css`
-                                                    flex: 1 0 33%;
+                                                    overflow-wrap: break-word;
+                                                    overflow: auto;
                                                 `}
                                             >
                                                 {diff_model.hf_repo_location}
                                             </div>
-                                            <div
-                                                css={css`
-                                                    flex: 1 0 33%;
-                                                `}
-                                            >
+                                            <div>
                                                 {diff_model.revision}
                                             </div>
                                         </div>
@@ -149,27 +137,34 @@ const ModelManager = () => {
                                         }
                                     `}
                                 >
-                                    <div
-                                        css={css`
-                                            margin: ${space[3]} 0;
-                                        `}
+                                    <HandleClick
+                                        idName='modelManagerRoot'
                                     >
-                                        <WhiteLink
-                                            onClick={handleClose}
+                                        <div
+                                            css={css`
+                                                margin: ${space[3]} 0;
+                                            `}
                                         >
-                                            Cancel
-                                        </WhiteLink>
-                                    </div>
+                                            <WhiteLink
+                                            >
+                                                Cancel
+                                            </WhiteLink>
+                                        </div>
+                                    </HandleClick>
                                     <div
                                         css={css`
                                             right: 0;
                                         `}
                                     >
-                                        <BlackButton
-                                            onClick={HandleAddModel}
+                                        <HandleClick
+                                            idName='addModelRoot'
+                                            isOpening={true}
                                         >
-                                            Add Model
-                                        </BlackButton>
+                                            <BlackButton
+                                            >
+                                                Add Model
+                                            </BlackButton>
+                                        </HandleClick>
                                     </div>
                                 </div>
                             </div>
@@ -188,11 +183,15 @@ const ModelManager = () => {
                                     You have no models installed yet. Set one up!
                                 </div>
                                 <div>
-                                    <BlackButton
-                                        onClick={HandleAddModel}
+                                    <HandleClick
+                                        idName='addModelRoot'
+                                        isOpening={true}
                                     >
-                                        Add Model
-                                    </BlackButton>
+                                        <BlackButton
+                                        >
+                                            Add Model
+                                        </BlackButton>
+                                    </HandleClick>
                                 </div>
                             </div>
                         }
