@@ -25,10 +25,23 @@ export interface DiffusionModel {
     revision: String
 }
 
+export interface InitImg {
+    id: Number,
+    title: String,
+    img: String,
+    create_date: Date
+}
+
 export interface Context {
     appState: {
         componentsOpen: number,
         setComponentsOpen: React.Dispatch<React.SetStateAction<number>>,
+        initImgs: InitImg[],
+        setInitImgs: React.Dispatch<React.SetStateAction<InitImg[]>>,
+        initImg: Number,
+        setInitImg: React.Dispatch<React.SetStateAction<Number>>,
+        initImgTitle: string,
+        setInitImgTitle: React.Dispatch<React.SetStateAction<string>>,
         promptHistory?: Prompt[],
         resultsImgs?: ResultImg[],
         promptText: string,
@@ -49,6 +62,6 @@ export interface Props {
 }
 
 export interface OpenCloseProps extends React.HTMLProps<HTMLDivElement> {
-    idName: string,
-    isOpening?: Boolean
+    idname: string,
+    isopening?: Boolean
 }

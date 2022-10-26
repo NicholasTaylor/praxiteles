@@ -152,9 +152,62 @@ def DiffusionModelCreateView(request):
 
 @api_view(['GET'])
 def InitImgView(request):
-    init_imgs = Init_Img.objects.all()
+    init_imgs = Init_Img.objects.all().order_by('-create_date')[:200]
     serializer = InitImgSerializer(init_imgs, many=True)
     return Response(serializer.data)
+
+@api_view(['GET', 'PUT', 'DELETE'])
+def InitImgDetailView(request, pk):
+    try:
+        init_img = Init_Img.objects.get(pk=pk)
+    except Init_Img.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    if request.method == 'GET':
+        serializer = InitImgSerializer(init_img)
+        return Response(serializer.data)
+    if request.method == 'PUT':
+        serializer = InitImgSerializer(init_img, data=request.data)
+        data = {}
+        if serializer.is_valid():
+            serializer.save()
+            data['success'] = 'Success message'
+            return Response(data=data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    if request.method == 'DELETE':
+        operation = init_img.delete()
+        data = {}
+        if operation:
+            data['success'] = 'Success message'
+        else:
+            data['failure'] = 'Failure message'
+        return Response(data=data)
+
+@api_view(['POST'])
+def InitImgCreateView(request):
+    if request.method == 'POST':
+        init_img = Init_Img()
+        serializer = InitImgSerializer(init_img, data=request.data)
+        print('Test')
+        #print('Serializer:\n%s' % str(serializer))
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors)
+
+        """img_raw = Image.open(path).convert('RGB')
+        width, height = img_raw.size
+        if width >= height:
+            height = int(height * 512 / width)
+            img_raw = img_raw.resize((512, height))
+            top = int((512 - height) / 2)
+            left = 0
+        else:
+            width = int(width * 512 / height)
+            img_raw = img_raw.resize((width, 512))
+            top = 0
+            left = int((512 - width) / 2)
+        img_new = Image.new(img_raw.mode, (512, 512))
+        img_new.paste(img_raw, (left, top))"""
 
 @api_view(['GET', 'PUT', 'DELETE'])
 def ResultImgDetailView(request, pk):

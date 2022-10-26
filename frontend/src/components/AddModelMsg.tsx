@@ -8,7 +8,7 @@ import { ModelResponseProps } from '../types/Types';
 import BlackButton from '../UI/BlackButton';
 import HandleClick from './HandleClick';
 
-const AddModelResponse = (props: PropsWithChildren<ModelResponseProps>) => {
+const AddModelMsg = (props: PropsWithChildren<ModelResponseProps>) => {
     return (
         <div
             id='addModelMsgRoot'
@@ -18,7 +18,7 @@ const AddModelResponse = (props: PropsWithChildren<ModelResponseProps>) => {
             `}
         >
             <HandleClick
-                idName='addModelMsgRoot'
+                idname='addModelMsgRoot'
             >
                 <div
                     css={css`
@@ -80,15 +80,11 @@ const AddModelResponse = (props: PropsWithChildren<ModelResponseProps>) => {
                             width: 100%;
                             position: relative;
                             text-align: center;
-                            height: calc(1em + (${space[3]} * 2));  
-                            div {
-                                display:inline-block;
-                                position: absolute;
-                            }                         
+                            height: calc(1em + (${space[3]} * 2));                     
                         `}
                     >
                         <HandleClick
-                            idName='addModelMsgRoot'
+                            idname='addModelMsgRoot'
                         >
                             <BlackButton>
                                 OK
@@ -101,4 +97,4 @@ const AddModelResponse = (props: PropsWithChildren<ModelResponseProps>) => {
     )
 }
 
-export default AddModelResponse;
+export default AddModelMsg;

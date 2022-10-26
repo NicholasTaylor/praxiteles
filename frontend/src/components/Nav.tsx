@@ -21,7 +21,6 @@ const Nav = () => {
                     text-transform: uppercase;
                     font-weight: ${fontWeight['bold']};
                     font-size: ${fontSize[2]};
-                    position: absolute;
                 }                            
             `}
         >
@@ -30,16 +29,43 @@ const Nav = () => {
                     margin: ${space[3]} 0;
                 `}
             >
-                <HandleClick
-                    idName='modelManagerRoot'
-                    isOpening={true}
+                <ul
+                    css={css`
+                        margin:0;
+                        padding:0;
+                        display: flex;
+                        flex-flow: row nowrap;
+                        li {
+                            list-style-type: none;
+                            margin: 0 ${space[4]} 0 0;
+                        }
+                    `}
                 >
-                    <WhiteLink
-                        href="#"
-                    >
-                        Models
-                    </WhiteLink>
-                </HandleClick>
+                    <li>
+                        <HandleClick
+                            idname='modelManagerRoot'
+                            isopening={true}
+                        >
+                            <WhiteLink
+                                href="#"
+                            >
+                                Models
+                            </WhiteLink>
+                        </HandleClick>
+                    </li>
+                    <li>
+                        <HandleClick
+                            idname='initImgManagerRoot'
+                            isopening={true}
+                        >
+                            <WhiteLink
+                                href="#"
+                            >
+                                Init Images
+                            </WhiteLink>
+                        </HandleClick>
+                    </li>
+                </ul>
             </div>
         </div>
     )

@@ -2,14 +2,12 @@
 /** @jsx jsx */
 
 import { css, jsx } from '@emotion/react';
-import { type } from '@testing-library/user-event/dist/type';
-import { useContext } from 'react';
 import { avantGarde, fontFamily, fontSize, space, trueGray } from '../constants/style';
-import { PraxContext } from '../contexts/PraxContext';
+import { usePraxContext } from '../contexts/PraxContext';
 import { ResultImg } from '../types/Types';
 
 const ResultImgGallery = () => {    
-    const { appState } = useContext(PraxContext);
+    const { appState } = usePraxContext();
     return(
         <div>
             {appState.resultsImgs!.length > 0 &&
@@ -47,6 +45,7 @@ const ResultImgGallery = () => {
                                     text-decoration: none;
                                     border: 0;
                                 `}
+                                rel="noreferrer"
                                 target="_blank"
                             >
                                 <img
@@ -67,7 +66,7 @@ const ResultImgGallery = () => {
                                     div {
                                         margin: ${space[3]} 0;
                                     }
-                                    div:first-child {
+                                    div:first-of-type {
                                         margin: ${space[1]} 0 ${space[3]} 0;
                                     }
                                 `}

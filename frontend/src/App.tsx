@@ -12,6 +12,8 @@ import AddModel from './components/AddModel';
 import Nav from './components/Nav';
 import ResultImgGallery from './components/ResultImgGallery';
 import { useEffect } from 'react';
+import InitImgManager from './components/InitImgManager';
+import AddInitImg from './components/AddInitImg';
 
 function App() {
   const praxContextValue = usePraxContext();
@@ -34,6 +36,8 @@ function App() {
       >
         <Nav />
         <AddModel />
+        <AddInitImg />
+        <InitImgManager />
         <ModelManager />
         <div
           css={css`

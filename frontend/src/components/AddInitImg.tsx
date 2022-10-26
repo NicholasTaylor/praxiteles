@@ -2,74 +2,81 @@
 /** @jsx jsx */
 
 import { css, jsx } from '@emotion/react';
-import React, { useCallback, useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { avantGarde, fontFamily, space, fontSize, fontWeight, trueGray } from '../constants/style';
 import WhiteLink from '../UI/WhiteLink';
 import BlackButton from '../UI/BlackButton';
-import AddModelMsg from './AddModelMsg';
 import HandleClick from './HandleClick';
 import { PraxContext } from '../contexts/PraxContext';
+import AddInitImgMsg from './AddInitImgMsg';
 
-const AddModel = () => {
-    const [name, setName] = useState('');
-    const [repo, setRepo] = useState('');
-    const [revision, setRevision] = useState('');
+const AddInitImg = () => {
+    const blankFile = new File([""], "filename.txt", {type: "text/plain", lastModified: new Date().getTime()});
+    const { appState } = useContext(PraxContext);
+    const [newInitImg, setNewInitImg] = useState(blankFile);
+    const [newInitImgTitle, setNewInitImgTitle] = useState('');
     const [responseHead, setResponseHead] = useState('');
     const [responseMsg, setResponseMsg] = useState('');
-    const { appState } = useContext(PraxContext);
 
     const openMsgComponent = () => {
-        const addModelMsgRoot = document.getElementById('addModelMsgRoot');
-        addModelMsgRoot!.style.opacity = '1';
+        const addInitImgMsgRoot = document.getElementById('addInitImgMsgRoot');
+        addInitImgMsgRoot!.style.opacity = '1';
         const output = appState.componentsOpen + 1;
         appState.setComponentsOpen(output); 
     }
 
-    const createModel = (event: React.SyntheticEvent) => {
-        event.preventDefault();
-        const requestOptions = {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({
-                display_name: name,
-                hf_repo_location: repo,
-                revision: revision
+    const createInitImg = (e: React.SyntheticEvent) => {
+        console.log('1');
+        e.stopPropagation();
+        if (newInitImg && newInitImgTitle){
+            console.log('2');
+            let formData = new FormData();
+            formData.append('img', newInitImg);
+            formData.append('title', newInitImgTitle);
+            formData.append('create_date', new Date().toISOString());
+            const requestOptions = {
+                method: 'POST',
+                body: formData
+            }
+            fetch('http://localhost:8000/api/initimg/create', requestOptions)
+            .then((res) => {
+                if(res.status === 200){
+                    console.log('3');
+                    setResponseHead('Success');
+                }
+                else {
+                    console.log('4');
+                    setResponseHead('Error');
+                }
+                console.log('5');
             })
-        }
-        fetch('http://localhost:8000/api/diffusionmodel/create', requestOptions)
-        .then((res) => {
-            if(res.status === 200){
-                setResponseHead('Success');
-            }
-            else {
+            .then(() => {
+                console.log('6');
+                setResponseMsg('The image uploaded successfully.')
+            })
+            .then(()=>{
+                console.log('7');
+                openMsgComponent();
+            })/*
+            .catch((err) => {
+                setResponseMsg(err);
                 setResponseHead('Error');
-            }
-            return res.json();
-        })
-        .then((data) => {
-            console.log(data);
-            setResponseMsg(data.detail)
-        })
-        .then(()=>{
-            openMsgComponent();
-        })
-        .catch((err) => {
-            setResponseMsg(err);
-            setResponseHead('Error');
-            openMsgComponent();
-        });
+                openMsgComponent();
+            });*/
+        }
+        console.log('8');
+        return false;
     }
-    
     return (
         <div
-            id='addModelRoot'
+            id='addInitImgRoot'
             css={css`
                 transition: ease-out .1s;
                 opacity: 0;
             `}
         >
             <HandleClick
-                idname='addModelRoot'
+                idname='addInitImgRoot'
             >
                 <div
                     css={css`
@@ -115,7 +122,7 @@ const AddModel = () => {
                                 margin: 0 0 ${space[4]} 0;
                             `}
                         >
-                            Add A Model
+                            Upload Init Img
                         </h1>
                     </div>
                     <div
@@ -139,40 +146,31 @@ const AddModel = () => {
                         `}
                     >
                         <label
-                            htmlFor='praxName'
+                            htmlFor='praxTitle'
                         >
-                            Model Nickname
+                            Image Title
                         </label>
                         <input
-                            id='praxName'
+                            id='praxTitle'
                             type='text'
-                            placeholder='ex: Stable Diffusion v1.4'
-                            value={name}
-                            onChange={(e) => setName(e.target.value)}
+                            placeholder='ex: me.jpg'
+                            value={newInitImgTitle}
+                            onChange={(e) => setNewInitImgTitle(e.target.value)}
                         />
                         <label
-                            htmlFor='praxRepo'
+                            htmlFor='praxImg'
                         >
-                            Author/Repo
+                            Image
                         </label>
                         <input
-                            id='praxRepo'
-                            type='text'
-                            placeholder='ex: CompVis/stable-diffusion-v1-4'
-                            value={repo}
-                            onChange={(e) => setRepo(e.target.value)}
-                        />
-                        <label
-                            htmlFor='praxRevision'
-                        >
-                            Revision
-                        </label>
-                        <input
-                            id='praxRevision'
-                            type='text'
-                            placeholder='ex: Main'
-                            value={revision}
-                            onChange={(e) => setRevision(e.target.value)}
+                            id='praxImg'
+                            type='file'
+                            onChange={(e) => {
+                                let files = e.target.files
+                                if (files) {
+                                    setNewInitImg(files[0]);
+                                }
+                            }}
                         />
                     </div>
                     <div
@@ -192,7 +190,7 @@ const AddModel = () => {
                             `}
                         >
                             <HandleClick
-                                idname='addModelRoot'
+                                idname='addInitImgRoot'
                             >
                                 <WhiteLink>
                                     Cancel
@@ -205,7 +203,7 @@ const AddModel = () => {
                             `}
                         >
                             <BlackButton
-                                onClick={createModel}
+                                onClick={(e) => createInitImg(e)}
                             >
                                 Submit
                             </BlackButton>
@@ -213,13 +211,13 @@ const AddModel = () => {
                     </div>
                 </div>                
             </div>
-            <AddModelMsg
+            <AddInitImgMsg
                 headline={responseHead}
             >
                 {responseMsg}
-            </AddModelMsg>
+            </AddInitImgMsg>
         </div>
     )
 }
 
-export default AddModel;
+export default AddInitImg;

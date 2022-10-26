@@ -9,10 +9,10 @@ const HandleClick: React.FC<OpenCloseProps> = ({
     const { appState } = useContext(PraxContext);
     const openCloseComponent = () => {        
         const currentOpen = appState.componentsOpen;
-        const component = document.getElementById(props.idName);
-        component!.style.opacity = props.isOpening ? '1' : '0';
-        const addOrRemove = props.isOpening ? 1 : -1;
-        const output = currentOpen + addOrRemove
+        const component = document.getElementById(props.idname);
+        component!.style.opacity = props.isopening ? '1' : '0';
+        const addOrRemove = props.isopening ? 1 : -1;
+        const output = currentOpen + addOrRemove;
         appState.setComponentsOpen(output); 
     }
     return(

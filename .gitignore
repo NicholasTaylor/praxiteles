@@ -51,8 +51,9 @@ coverage.xml
 .hypothesis/
 
 # User-Generated Assets
-static/results/*
+static/*/*
 !static/results/.gitkeep
+!static/uploads/.gitkeep
 
 # Translations
 *.mo

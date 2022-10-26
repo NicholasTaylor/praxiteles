@@ -1,27 +1,40 @@
 import { useState, useEffect, createContext } from "react";
 import axios from "axios";
-import { Context, DiffusionModel } from "../types/Types";
+import { Context, DiffusionModel, InitImg } from "../types/Types";
+
+const blankDisp = () => {return null};
 
 const praxContextDefaultValue: Context = {
     appState: {
       componentsOpen: 0,
-      setComponentsOpen: () => {return null},
+      setComponentsOpen: blankDisp,
+      initImgs: [],
+      setInitImgs: blankDisp,
+      initImg: 0,
+      setInitImg: blankDisp,
+      initImgTitle: '',
+      setInitImgTitle: blankDisp,
       promptHistory: [],
       resultsImgs: [],
       promptText: '',
-      setPromptText: () => {return null},
+      setPromptText: blankDisp,
       diffusionModels: [],
-      setDiffusionModels: () => {return null},
+      setDiffusionModels: blankDisp,
       diffusionModel: 0,
-      setDiffusionModel: () => {return null}
+      setDiffusionModel: blankDisp
     }
 }
 
 export const PraxContext = createContext<Context>(praxContextDefaultValue)
 
 export const usePraxContext = () => {
+    const initImgsDefault: InitImg[] = [];
+    const initImgDefault: Number = 0;
     const [componentsOpen, setComponentsOpen] = useState(0);
-    const diffusionModelsDefault: DiffusionModel[] = []
+    const [initImgs, setInitImgs] = useState(initImgsDefault);
+    const [initImg, setInitImg] = useState(initImgDefault);
+    const [initImgTitle, setInitImgTitle] = useState('');
+    const diffusionModelsDefault: DiffusionModel[] = [];
     const diffusionModelDefault: Number = 0;
     const [promptHistory, setPromptHistory] = useState([]);
     const [resultImgs, setResultImgs] = useState([]);
@@ -31,6 +44,12 @@ export const usePraxContext = () => {
     const output: Context = {
       appState: {
         componentsOpen: componentsOpen,
+        initImgs: initImgs,
+        setInitImgs: setInitImgs,
+        initImg: initImg,
+        setInitImg: setInitImg,
+        initImgTitle: initImgTitle,
+        setInitImgTitle: setInitImgTitle,
         setComponentsOpen: setComponentsOpen,
         promptHistory: promptHistory,
         resultsImgs: resultImgs,
@@ -70,11 +89,19 @@ export const usePraxContext = () => {
         .then((res) => setResultImgs(res.data))
         .catch((err) => console.log(err));
     }
+
+    const getAllInitImgs = () => {
+      axios
+        .get('http://localhost:8000/api/initimgs/')
+        .then((res) => setInitImgs(res.data))
+        .catch((err) => console.log(err));
+    }
   
     useEffect(() => {
       getAllPrompts();
       getAllModels();
       getAllResultImgs();
+      getAllInitImgs();
     },[])
   
     return (output);

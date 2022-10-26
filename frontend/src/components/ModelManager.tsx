@@ -21,7 +21,7 @@ const ModelManager = () => {
             `}
         >
             <HandleClick
-                idName='modelManagerRoot'
+                idname='modelManagerRoot'
             >
                 <div
                     css={css`
@@ -66,7 +66,7 @@ const ModelManager = () => {
                                 margin: 0;
                             `}
                         >
-                            Model Manager
+                            Diffusion Models
                         </h1>
                     </div>
                     <div>
@@ -138,7 +138,7 @@ const ModelManager = () => {
                                     `}
                                 >
                                     <HandleClick
-                                        idName='modelManagerRoot'
+                                        idname='modelManagerRoot'
                                     >
                                         <div
                                             css={css`
@@ -151,21 +151,18 @@ const ModelManager = () => {
                                             </WhiteLink>
                                         </div>
                                     </HandleClick>
-                                    <div
+                                    <HandleClick
+                                        idname='addModelRoot'
+                                        isopening={true}
                                         css={css`
                                             right: 0;
                                         `}
                                     >
-                                        <HandleClick
-                                            idName='addModelRoot'
-                                            isOpening={true}
+                                        <BlackButton
                                         >
-                                            <BlackButton
-                                            >
-                                                Add Model
-                                            </BlackButton>
-                                        </HandleClick>
-                                    </div>
+                                            Add Model
+                                        </BlackButton>
+                                    </HandleClick>
                                 </div>
                             </div>
                         }
@@ -184,8 +181,8 @@ const ModelManager = () => {
                                 </div>
                                 <div>
                                     <HandleClick
-                                        idName='addModelRoot'
-                                        isOpening={true}
+                                        idname='addModelRoot'
+                                        isopening={true}
                                     >
                                         <BlackButton
                                         >

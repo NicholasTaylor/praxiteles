@@ -9,15 +9,10 @@ import { DiffusionModel } from '../types/Types';
 import iconCamera from '../images/icon-camera.png';
 import BlackButton from '../UI/BlackButton';
 import Logo from './Logo';
+import HandleClick from './HandleClick';
 
 const PromptForm = () => {
     const { appState } = useContext(PraxContext);
-    const handleImage = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const files = event.target.files;
-        if (files){
-            console.log(files[0]);
-        }
-    }
     const submitPrompt = (event: React.SyntheticEvent) => {
         event.preventDefault();
         const requestOptions = {
@@ -54,21 +49,15 @@ const PromptForm = () => {
                     margin: ${space[4]} 0 0 0;
                     display:flex;
                     justify-content: center;
-                    align-items: center;
-                    div, select {
-                        height:${fontSize[6]};
-                    }
                     .promptForm__imgSearch_btn {
                         height: calc(${fontSize[6]} - (${space[1]} * 2));
-                    }
-                    input {
-                        height:calc(${fontSize[6]} - (${space[1]} * 2));
                     }
                 `}
             >
                 <div
                     css={css`
                         padding: 0 ${space[5]} 0 0;
+                        align-self: center;
                     `}
                 >
                     <Logo />
@@ -129,8 +118,10 @@ const PromptForm = () => {
                         display: inline-block;
                     `}
                 >
-                    <label 
-                        htmlFor="imgSearch"
+                    <HandleClick
+                        idname='initImgManagerRoot'
+                        isopening={true}
+                        className="promptForm__imgSearch_btn"
                     >
                         <img
                             src={iconCamera}
@@ -141,19 +132,12 @@ const PromptForm = () => {
                                 padding: ${space[2]} ${space[3]};
                             `}
                         />
-                    </label>
-                    <input
-                        id="imgSearch"
-                        type="file"
-                        css={css`
-                            display:none;
-                        `}
-                        onChange={handleImage}
-                    />
+                    </HandleClick>
                 </div>
                 <div
                     css={css`
-                    padding: 0 0 0 ${space[5]};
+                        padding: 0 0 0 ${space[5]};
+                        align-self: center;
                     `}
                 >
                     <BlackButton
