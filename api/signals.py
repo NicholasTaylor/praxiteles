@@ -1,4 +1,4 @@
-import imp
+import traceback
 from django.db.models import signals
 from django.dispatch import receiver
 import requests
@@ -27,7 +27,7 @@ def generate_images(sender, instance, **kwargs):
         pipe.safety_checker = dummy
         return pipe
     
-    def get_img():
+    def get_init_img():
         path = init_img.img
         img_raw = Image.open(path).convert('RGB')
         width, height = img_raw.size
@@ -48,13 +48,13 @@ def generate_images(sender, instance, **kwargs):
     def update_prompt_complete_time(id):
         Prompt.objects.filter(id=id).update(complete_date=timezone.now())
 
-    def gen_img():
-        init_img_processed = get_img() if init_img else None
+    def gen_result_img():
+        init_img_processed = get_init_img() if init_img else None
         is_img = True if init_img_processed else False
+        print('init_img: %s\ninit_img_processed: %s\nis_img: %s' % (str(init_img), str(init_img_processed), str(is_img)))
         pipe = get_pipe(repo, revision, True) if is_img else get_pipe(repo, revision)
         generator = torch.Generator(device='cuda').manual_seed(1024)
-        #guidance_range = range(11,15) if is_img else range(0,21)
-        guidance_range = range(0,4)
+        guidance_range = range(11,15) if is_img else range(0,21)
         strength_range = range(10,21) if is_img else range(0,1)
         for g in guidance_range:
             for s in strength_range:
@@ -160,11 +160,12 @@ def generate_images(sender, instance, **kwargs):
     session = datetime.utcnow().strftime('%Y%m%d%H%M%S')
     model = Diffusion_Model.objects.get(pk=instance.diff_model.id)
     try:
-        init_img = Init_Img.objects.get(pk=instance.img)
-    except:
+        init_img = Init_Img.objects.get(pk=instance.img.id)
+    except Exception:
+        traceback.print_exc()
         init_img = False
     repo = model.hf_repo_location
     revision = model.revision
     prompt_text = instance.prompt_text
     prompt_id = instance.id
-    gen_img()
+    gen_result_img()

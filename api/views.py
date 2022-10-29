@@ -91,7 +91,6 @@ def PromptCreateView(request):
     if request.method == 'POST':
         prompt = Prompt()
         serializer = PromptSerializer(prompt, data=request.data)
-        print('Request Data:\n%s' % str(request.data))
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)

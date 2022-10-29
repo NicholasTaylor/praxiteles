@@ -6,7 +6,7 @@ class Init_Img(models.Model):
     img = models.FileField(upload_to='static/uploads/')
     create_date = models.DateTimeField('date created')
     def __str__(self):
-        return self.img
+        return self.title
 
 class Diffusion_Model(models.Model):
     display_name = models.CharField(max_length=256)
