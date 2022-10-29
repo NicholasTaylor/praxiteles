@@ -3,7 +3,7 @@ from django.shortcuts import get_object_or_404, render
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from api.exceptions import DuplicateModel, InvalidModelIdentifer
+from api.exceptions import DuplicateModel, InvalidModelIdentifer, PromptAlreadyCanceled, PromptAlreadyComplete
 from .serializers import PromptSerializer, DiffusionModelSerializer, InitImgSerializer, ResultImgSerializer
 from .models import Init_Img, Prompt, Diffusion_Model, Result_Img
 from diffusers import StableDiffusionPipeline
@@ -96,6 +96,25 @@ def PromptCreateView(request):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['POST'])
+def PromptCancelView(request, pk):
+    data = {}
+    if request.method == 'POST':
+        prompt = Prompt.objects.filter(id=pk)
+        if not prompt:
+            data['error'] = 'Prompt doesn\'t exist.'
+            return Response(data=data, status=status.HTTP_404_NOT_FOUND)
+        if prompt[0].is_canceled and prompt[0].complete_date:
+            raise PromptAlreadyCanceled
+        elif prompt[0].complete_date:
+            raise PromptAlreadyComplete
+        else:
+            prompt.update(is_canceled=True)
+            data['success'] = 'Cancel signal successfully sent.'
+            return Response(status=status.HTTP_200_OK)
+    data['error'] = 'Bad or malformed request.'
+    return Response(data=data, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET'])
 def DiffusionModelView(request):

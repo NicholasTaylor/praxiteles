@@ -10,19 +10,26 @@ import iconCamera from '../images/icon-camera.png';
 import BlackButton from '../UI/BlackButton';
 import Logo from './Logo';
 import HandleClick from './HandleClick';
+import InitImgSelect from './InitImgSelect';
 
 const PromptForm = () => {
     const { appState } = useContext(PraxContext);
     const submitPrompt = (event: React.SyntheticEvent) => {
         event.preventDefault();
+        const body = appState.initImg ? {
+            prompt_text: appState.promptText,
+            img: appState.initImg,
+            diff_model: appState.diffusionModel,
+            create_date: new Date().toISOString()
+        } : {
+            prompt_text: appState.promptText,
+            diff_model: appState.diffusionModel,
+            create_date: new Date().toISOString()
+        }
         const requestOptions = {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({
-                prompt_text: appState.promptText,
-                diff_model: appState.diffusionModel,
-                create_date: new Date().toISOString()
-            })
+            body: JSON.stringify(body)
         }
         fetch('http://localhost:8000/api/prompt/create', requestOptions)
         /*.then((res) => {
@@ -98,7 +105,7 @@ const PromptForm = () => {
                     value={appState.promptText}
                     onChange={(e) => appState.setPromptText(e.target.value)}
                     css={css`
-                        width: 33%;
+                        width: 25%;
                         font-size: ${fontSize[2]};
                         border: ${space[1]} solid ${trueGray};
                         border-width: ${space[1]} 0;
@@ -107,6 +114,16 @@ const PromptForm = () => {
                         display: inline-block;
                     `}
                 />
+                <div
+                    css={css`
+                        border: ${space[1]} solid ${trueGray};
+                        border-width: ${space[1]} 0;
+                        display: flex;
+                        align-items: center;
+                    `}
+                >
+                    <InitImgSelect />
+                </div>
                 <div
                     className='promptForm__imgSearch_btn'
                     css={css`

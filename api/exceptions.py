@@ -9,3 +9,13 @@ class DuplicateModel(APIException):
     status_code = 409
     default_detail = "The model and revision you specified already exists in the system. There is no need to add it again."
     default_code = "duplicate_model"
+
+class PromptAlreadyComplete(APIException):
+    status_code = 418
+    default_detail = "The prompt you're trying to cancel has already completed."
+    default_code = "prompt_already_complete"
+
+class PromptAlreadyCanceled(APIException):
+    status_code = 418
+    default_detail = "The prompt you're trying to cancel is already canceled."
+    default_code = "prompt_already_canceled"

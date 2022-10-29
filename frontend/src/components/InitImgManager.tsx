@@ -13,18 +13,11 @@ import HandleClick from './HandleClick';
 const InitImgManager = () => {
     const { appState } = useContext(PraxContext);
     const [img, setImg] = useState();
-    const selectInitImg = (e: React.SyntheticEvent, key: string) => {
-        e.preventDefault();
-        console.log('Testing');
-        /*
-        if (img){
-            appState.setInitImg(key);
-            const currentOpen = appState.componentsOpen;
-            const component = document.getElementById('initImgManagerRoot');
-            component!.style.opacity = '0';
-            const output = currentOpen - 1;
-            appState.setComponentsOpen(output);
-        }*/
+    const handleInitImg = (e: React.SyntheticEvent, InitImgId: Number) => {
+        appState.setInitImg(InitImgId);
+        document.getElementById('initImgManagerRoot')!.style.opacity = '0';
+        const output = appState.componentsOpen - 1;
+        appState.setComponentsOpen(output);
     }
     return (
         <div
@@ -141,7 +134,6 @@ const InitImgManager = () => {
                                                 margin: ${space[4]};
                                                 border: 1px solid ${trueGray};
                                             `}
-                                            onClick={(e) => {selectInitImg(e, init_img.id.toString())}}
                                         >
                                             <h1
                                                 css={css`
@@ -154,12 +146,12 @@ const InitImgManager = () => {
                                             >
                                                 {init_img.title}
                                             </h1>
-                                            <a
-                                                href="#"
+                                            <button
                                                 css={css`
                                                     text-decoration: none;
                                                     border: 0;
                                                 `}
+                                                onClick={(e) => {handleInitImg(e, init_img.id)}}
                                             >
                                                 <img
                                                     src={`http://localhost:8000${init_img.img}`}
@@ -169,7 +161,7 @@ const InitImgManager = () => {
                                                         height: auto;
                                                     `}
                                                 />
-                                            </a>
+                                            </button>
                                             <caption
                                                 css={css`
                                                     display:block;

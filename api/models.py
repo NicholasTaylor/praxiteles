@@ -19,7 +19,9 @@ class Prompt(models.Model):
     prompt_text = models.CharField(max_length=1900)
     img = models.ForeignKey(Init_Img, blank=True, null=True, on_delete=models.PROTECT)
     diff_model = models.ForeignKey(Diffusion_Model, on_delete=models.PROTECT)
+    is_canceled = models.BooleanField(default=False)
     create_date = models.DateTimeField('date created')
+    complete_date = models.DateTimeField('date completed', blank=True, null=True)
     def __str__(self):
         return self.prompt_text
 
