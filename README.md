@@ -25,8 +25,11 @@ A suitable [conda](https://conda.io/) environment named `prax` can be created
 and activated with:
 
 ```
-conda env create -f environment.yaml && conda activate prax && conda install mysqlclient
-conda activate prax
+conda env create -f environment.yaml
+conda activate prax 
+pip install --upgrade pip
+pip install mercurial
+conda install mysqlclient
 ```
 
 You can also update an existing [latent diffusion](https://github.com/CompVis/latent-diffusion) environment by running

@@ -90,7 +90,7 @@ def generate_images(sender, instance, **kwargs):
                         img = pipe(prompt = prompt_text, init_image = init_img_processed, strength = strength_val, guidance_scale = g, generator = generator).images[0]
                         title = '%s-guidance-%i-strength-%i' % (session, g, strength_name)
                     else:
-                        img = pipe(prompt = prompt_text, guidance_scale=g)['sample'][0]
+                        img = pipe(prompt = prompt_text, guidance_scale=g).images[0]
                         title = '%s-guidance-%i' % (session, g)
                     filepath = 'static/results/%s.jpeg' % title
                     img.save(filepath)
