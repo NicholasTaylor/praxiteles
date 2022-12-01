@@ -1,7 +1,9 @@
 import traceback
+import torch
+import requests
+import credentials
 from django.db.models import signals
 from django.dispatch import receiver
-import requests
 from .models import Init_Img, Prompt, Diffusion_Model, Result_Img
 from diffusers import StableDiffusionPipeline
 from diffusers import StableDiffusionImg2ImgPipeline
@@ -12,8 +14,22 @@ from torch.cuda.amp import autocast
 from rest_framework import status
 from rest_framework.response import Response
 from PIL import Image
-import torch
-import credentials
+from channels.layers import get_channel_layer
+from asgiref.sync import async_to_sync
+
+
+@receiver(signals.post_save, sender=Result_Img)
+
+def send_result_img_msg(sender, instance, **kwargs):
+    channel_layer = get_channel_layer()
+    result_img_group_name = Result_Img.objects.get(pk=instance.result_img_id).prompt.websocket_guid
+    async_to_sync(channel_layer.group_send(result_img_group_name, {
+        result_img_group_name, 
+        {
+            'type': 'send_result_img', 
+            'result_img_id': instance.id
+        }
+    }))
 
 @receiver(signals.post_save, sender=Prompt)
 def generate_images(sender, instance, **kwargs):
@@ -103,66 +119,12 @@ def generate_images(sender, instance, **kwargs):
                         update_prompt_complete_time(prompt_id)
                         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         update_prompt_complete_time(prompt_id)
-
-    """def txt2img():
-        for i in range(0,21):
-            with autocast():
-                img = pipe(prompt = prompt_text, guidance_scale=i)['sample'][0]
-                title = '%s-guidance-%i' % (session, i)
-                filepath = 'static/results/%s.jpeg' % title
-                img.save(filepath)
-                result_img = Result_Img()
-                data = {
-                        'title': title,
-                        'img_path': filepath,
-                        'prompt': prompt_id,
-                        'diff_model': model.id,
-                        'guidance_scale': i,
-                        'create_date': datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')
-                }
-                serializer = ResultImgSerializer(result_img, data=data)
-                if serializer.is_valid():
-                    serializer.save()
-                else:
-                    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    def img2img():
-        generator = torch.Generator(device='cuda').manual_seed(1024)
-        guidance_range = range(11,15)
-        strength_range = range(10,21)
-        init_img_processed = get_img()
-        for g in guidance_range:
-            for s in strength_range:
-                strength_val = round(s / 20, 2)
-                strength_name = int(strength_val * 100)
-                with autocast():
-                    img = pipe(prompt = prompt_text, init_image = init_img_processed, strength = strength_val, guidance_scale = g, generator = generator).images[0]
-                    title = '%s-guidance-%i-strength-%i' % (session, g, strength_name)
-                    filepath = 'static/results/%s.jpeg' % title
-                    img.save(filepath)
-                    result_img = Result_Img()
-                    data = {
-                            'title': title,
-                            'img_path': filepath,
-                            'prompt': prompt_id,
-                            'diff_model': model.id,
-                            'init_img': init_img.id,
-                            'strength': s,
-                            'guidance_scale': g,
-                            'create_date': datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')
-                    }
-                    serializer = ResultImgSerializer(result_img, data=data)
-                    if serializer.is_valid():
-                        serializer.save()
-                    else:
-                        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)"""
     
     session = datetime.utcnow().strftime('%Y%m%d%H%M%S')
     model = Diffusion_Model.objects.get(pk=instance.diff_model.id)
     try:
         init_img = Init_Img.objects.get(pk=instance.img.id)
     except Exception:
-        traceback.print_exc()
         init_img = False
     repo = model.hf_repo_location
     revision = model.revision

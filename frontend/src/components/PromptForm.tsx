@@ -5,26 +5,26 @@ import { css, jsx } from '@emotion/react';
 import React, { useContext } from 'react';
 import { PraxContext } from '../contexts/PraxContext';
 import { space, fontSize, fontWeight, trueGray } from '../constants/style';
-import { DiffusionModel } from '../types/Types';
+import { DiffusionModel, Prompt } from '../types/Types';
 import iconCamera from '../images/icon-camera.png';
 import BlackButton from '../UI/BlackButton';
 import Logo from './Logo';
 import HandleClick from './HandleClick';
 import InitImgSelect from './InitImgSelect';
+import { v4 as uuidv4 } from 'uuid';
 
 const PromptForm = () => {
     const { appState } = useContext(PraxContext);
     const submitPrompt = (event: React.SyntheticEvent) => {
         event.preventDefault();
-        const body = appState.initImg ? {
-            prompt_text: appState.promptText,
-            img: appState.initImg,
-            diff_model: appState.diffusionModel,
-            create_date: new Date().toISOString()
-        } : {
+        const body: Prompt = {
             prompt_text: appState.promptText,
             diff_model: appState.diffusionModel,
+            websocket_guid: appState.websocketGuid,
             create_date: new Date().toISOString()
+        }
+        if (appState.initImg){
+            body.img = appState.initImg
         }
         const requestOptions = {
             method: 'POST',
@@ -32,6 +32,17 @@ const PromptForm = () => {
             body: JSON.stringify(body)
         }
         fetch('http://localhost:8000/api/prompt/create', requestOptions)
+        .then((res)=>{
+            if(res.status === 200){
+                appState.setIsOngoingPrompt(true)
+            }
+        })
+        .then(()=>{
+            appState.setWebsocketGuid(uuidv4())
+        })
+        .catch((err) => {
+            console.log(err);
+        })
         /*.then((res) => {
             if(res.status === 200){
                 setResponseHead('Success');

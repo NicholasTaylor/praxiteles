@@ -2,12 +2,65 @@
 /** @jsx jsx */
 
 import { css, jsx } from '@emotion/react';
+import { useCallback, useEffect } from 'react';
 import { avantGarde, fontFamily, fontSize, space, trueGray } from '../constants/style';
 import { usePraxContext } from '../contexts/PraxContext';
 import { ResultImg } from '../types/Types';
 
 const ResultImgGallery = () => {    
     const { appState } = usePraxContext();
+    const onNewImg = (e: MessageEvent) => {
+        const data = JSON.parse(e.data)
+        if (e.data.type === 'send_result_img' && e.data.result_img_id){
+            const result_img_id = data.result_img_id
+            const payload = {
+                method: 'GET',
+                id: result_img_id
+            }
+            fetch(`http://localhost:8000/api/resultimg/${result_img_id}`, payload)
+                .then((res) => {
+                    return res.json();
+                })
+                .then((data) => {
+                    const divRoot = document.getElementById('ongoingPromptGallery')
+                    const newDiv = document.createElement('div');
+                    const newImg = new Image();
+                    newImg.src = `http://localhost:8000/${data.img_path}`;
+                    newImg.alt = data.title.toString();
+                    newDiv.appendChild(newImg);
+                    divRoot?.insertBefore(newDiv, divRoot?.firstChild);
+                    
+                })
+                .catch((err) => {
+                    console.log(err)
+                });
+        }
+    }
+    /*const addNewResultImg = (resultImgId: Number) => {
+        const ws = new WebSocket(`ws://localhost:8000/ws/ResultImg/${resultImgId}`);
+        ws.onopen = (ev: Event) => {
+            console.log('open', ev);
+            ws.send(JSON.stringify({
+                'result_img_id': resultImgId
+            }))
+        }
+        ws.onmessage = (e: MessageEvent) => {
+            onNewImg(e)
+        }
+    }*/
+    const createWs = useCallback(() => {
+        if (appState.isOngoingPrompt && appState.websocketGuid){
+            const ws = new WebSocket(`ws://localhost:8000/ws/OngoingPrompt/${appState.websocketGuid}`);
+            console.log('Firing.');
+            ws.onmessage = (e: MessageEvent) => {
+                onNewImg(e)
+            }
+            appState.setIsOngoingPrompt(false);
+        }
+    },[appState])
+    useEffect(()=>{
+        createWs();
+    },[appState.isOngoingPrompt, createWs])
     return(
         <div>
             {appState.resultsImgs!.length > 0 &&

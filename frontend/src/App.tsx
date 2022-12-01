@@ -14,6 +14,8 @@ import ResultImgGallery from './components/ResultImgGallery';
 import { useEffect } from 'react';
 import InitImgManager from './components/InitImgManager';
 import AddInitImg from './components/AddInitImg';
+import OngoingPrompt from './components/OngoingPrompt';
+import ErrorBoundary from './components/ErrorBoundary';
 
 function App() {
   const praxContextValue = usePraxContext();

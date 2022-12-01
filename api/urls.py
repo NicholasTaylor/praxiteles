@@ -17,5 +17,6 @@ urlpatterns = [
     path('diffusionmodel/create', views.DiffusionModelCreateView, name='diffusionModelCreate'),
     path('diffusionmodel/<int:pk>', views.DiffusionModelDetailView, name='diffusionModel'),
     path('initimgs/', views.InitImgView, name='initimgs'),
+    path('resultimg/<int:pk>', views.ResultImgDetailView, name='resultimg'),
     path('resultimgs/', views.ResultImgsView, name='resultimgs'),
 ]

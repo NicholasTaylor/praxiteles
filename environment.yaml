@@ -30,6 +30,10 @@ dependencies:
     - mercurial==6.2.3
     - djangorestframework==3.14.0
     - django-cors-headers==3.13.0
+    - channels==4.0.0
+    - daphne==4.0.0
+    - channels-redis==4.0.0
+    - redis-server==6.0.9
     - -e git+https://github.com/CompVis/taming-transformers.git@master#egg=taming-transformers
     - -e git+https://github.com/openai/CLIP.git@main#egg=clip
     - -e .

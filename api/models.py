@@ -20,6 +20,7 @@ class Prompt(models.Model):
     img = models.ForeignKey(Init_Img, blank=True, null=True, on_delete=models.PROTECT)
     diff_model = models.ForeignKey(Diffusion_Model, on_delete=models.PROTECT)
     is_canceled = models.BooleanField(default=False)
+    websocket_guid = models.CharField(max_length=256, blank=True, null=True)
     create_date = models.DateTimeField('date created')
     complete_date = models.DateTimeField('date completed', blank=True, null=True)
     def __str__(self):
@@ -35,4 +36,4 @@ class Result_Img(models.Model):
     strength = models.FloatField(blank=True, null=True)
     create_date = models.DateTimeField('date created')
     def __str__(self):
-        return self.img        
+        return self.img_path        

@@ -1,9 +1,12 @@
 import React from "react";
 
 export interface Prompt {
-    id: Number,
+    id?: Number,
     prompt_text: String,
-    create_date: Date
+    diff_model: Number,
+    websocket_guid: String,
+    create_date: String,
+    img?: Number
 }
 
 export interface ResultImg {
@@ -50,6 +53,10 @@ export interface Context {
         setDiffusionModels: React.Dispatch<React.SetStateAction<DiffusionModel[]>>,
         diffusionModel: Number,
         setDiffusionModel: React.Dispatch<React.SetStateAction<Number>>,
+        isOngoingPrompt: boolean,
+        setIsOngoingPrompt: React.Dispatch<React.SetStateAction<boolean>>,
+        websocketGuid: string,
+        setWebsocketGuid: React.Dispatch<React.SetStateAction<string>>
     }
 }
 

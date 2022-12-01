@@ -41,7 +41,7 @@ const PromptHistory = () => {
                     `}
                 >
                     {appState.promptHistory?.map((prompt: Prompt) =>
-                        <li key={prompt.id.toString()}>
+                        <li key={prompt.id?.toString()}>
                             {prompt.prompt_text}
                         </li>
                     )}

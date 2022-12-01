@@ -1,8 +1,10 @@
 import { useState, useEffect, createContext } from "react";
 import axios from "axios";
 import { Context, DiffusionModel, InitImg } from "../types/Types";
+import { v4 as uuidv4 } from 'uuid';
 
 const blankDisp = () => {return null};
+const websocketGuidDefault: string = uuidv4();
 
 const praxContextDefaultValue: Context = {
     appState: {
@@ -21,7 +23,11 @@ const praxContextDefaultValue: Context = {
       diffusionModels: [],
       setDiffusionModels: blankDisp,
       diffusionModel: 0,
-      setDiffusionModel: blankDisp
+      setDiffusionModel: blankDisp,
+      isOngoingPrompt: false,
+      setIsOngoingPrompt: blankDisp,
+      websocketGuid: websocketGuidDefault,
+      setWebsocketGuid: blankDisp
     }
 }
 
@@ -30,17 +36,19 @@ export const PraxContext = createContext<Context>(praxContextDefaultValue)
 export const usePraxContext = () => {
     const initImgsDefault: InitImg[] = [];
     const initImgDefault: Number = 0;
+    const diffusionModelsDefault: DiffusionModel[] = [];
+    const diffusionModelDefault: Number = 0;
     const [componentsOpen, setComponentsOpen] = useState(0);
     const [initImgs, setInitImgs] = useState(initImgsDefault);
     const [initImg, setInitImg] = useState(initImgDefault);
     const [initImgTitle, setInitImgTitle] = useState('');
-    const diffusionModelsDefault: DiffusionModel[] = [];
-    const diffusionModelDefault: Number = 0;
     const [promptHistory, setPromptHistory] = useState([]);
     const [resultImgs, setResultImgs] = useState([]);
     const [promptText, setPromptText] = useState('');
     const [diffusionModels, setDiffusionModels] = useState(diffusionModelsDefault);
     const [diffusionModel, setDiffusionModel] = useState(diffusionModelDefault);
+    const [isOngoingPrompt, setIsOngoingPrompt] = useState(false);
+    const [websocketGuid, setWebsocketGuid] = useState(websocketGuidDefault);
     const output: Context = {
       appState: {
         componentsOpen: componentsOpen,
@@ -58,7 +66,11 @@ export const usePraxContext = () => {
         diffusionModels: diffusionModels,
         setDiffusionModels: setDiffusionModels,
         diffusionModel: diffusionModel,
-        setDiffusionModel: setDiffusionModel
+        setDiffusionModel: setDiffusionModel,
+        isOngoingPrompt: isOngoingPrompt,
+        setIsOngoingPrompt: setIsOngoingPrompt,
+        websocketGuid: websocketGuid,
+        setWebsocketGuid: setWebsocketGuid
       }
     }
     const getAllPrompts = () => {

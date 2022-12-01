@@ -26,10 +26,8 @@ const AddInitImg = () => {
     }
 
     const createInitImg = (e: React.SyntheticEvent) => {
-        console.log('1');
         e.stopPropagation();
         if (newInitImg && newInitImgTitle){
-            console.log('2');
             let formData = new FormData();
             formData.append('img', newInitImg);
             formData.append('title', newInitImgTitle);
@@ -41,21 +39,16 @@ const AddInitImg = () => {
             fetch('http://localhost:8000/api/initimg/create', requestOptions)
             .then((res) => {
                 if(res.status === 200){
-                    console.log('3');
                     setResponseHead('Success');
                 }
                 else {
-                    console.log('4');
                     setResponseHead('Error');
                 }
-                console.log('5');
             })
             .then(() => {
-                console.log('6');
                 setResponseMsg('The image uploaded successfully.')
             })
             .then(()=>{
-                console.log('7');
                 openMsgComponent();
             })/*
             .catch((err) => {
